@@ -23,10 +23,10 @@ namespace ConsoleApp2
         static void Main(string[] args)
         {
             //ConfigManager dc = new ConfigManager();
-            var d = ConfigManager.Build.Mail;
+          //  var d = ConfigManager.Build.Mail;
            // var c = ConfigManager.Instance.ConnectionString;
-            //IServiceCollection services = new ServiceCollection();
-           // services.AddEnginePack<MyContext>();
+            IServiceCollection services = new ServiceCollection();
+           services.AddEnginePack<MyContext>();
             
            // var service = ServiceLocator.Instace.GetService(typeof(IUserService)) as IUserService;
            // service.CreateUser(new UserInfo { });

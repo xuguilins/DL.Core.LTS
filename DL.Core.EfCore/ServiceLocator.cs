@@ -7,7 +7,7 @@ namespace DL.Core.EfCore
 {
     public  class ServiceLocator
     {
-        private IServiceProvider ServiceProvider { get;  set; }
+        public IServiceProvider ServiceProvider { get;  set; }
         public static readonly Lazy<ServiceLocator> locator = new Lazy<ServiceLocator>(() => new ServiceLocator());
         public static ServiceLocator Instace => locator.Value;
         public void SetProvider(IServiceProvider provider)
@@ -36,6 +36,12 @@ namespace DL.Core.EfCore
             return ServiceProvider.GetServices<T>();
         }
 
+        public IEnumerable<object> GetServices(Type type)
+        {
+            if (ServiceProvider == null)
+                return null;
+            return  ServiceProvider.GetServices(type);
+        }
         public T GetRequiredService<T>()
         {
             if (ServiceProvider == null)
