@@ -20,7 +20,7 @@ namespace DL.Core.EfCore
     public class DbContextBase<TDbContxt>:DbContext, IDbContext where TDbContxt:DbContext
     {
        // private static readonly EntityConcurrentDictory dic = new EntityConcurrentDictory();
-        private IServiceProvider provider;
+      //  private IServiceProvider provider;
         public virtual string ConnectionString { get; set; }
         public IUnitOfWork CurrentUnitOfWork { get; set; }
       

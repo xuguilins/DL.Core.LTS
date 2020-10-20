@@ -14,6 +14,7 @@ using DL.Core.ns.EFCore;
 using DL.Core.EfCore.engine;
 using System.Runtime.CompilerServices;
 using DL.Core.ulitity.attubites;
+using DL.Core.ulitity.configer;
 
 namespace ConsoleApp2
 {
@@ -21,8 +22,12 @@ namespace ConsoleApp2
     {
         static void Main(string[] args)
         {
-            IServiceCollection services = new ServiceCollection();
-            services.AddEnginePack<MyContext>();
+            //ConfigManager dc = new ConfigManager();
+            var d = ConfigManager.Build.Mail;
+           // var c = ConfigManager.Instance.ConnectionString;
+            //IServiceCollection services = new ServiceCollection();
+           // services.AddEnginePack<MyContext>();
+            
            // var service = ServiceLocator.Instace.GetService(typeof(IUserService)) as IUserService;
            // service.CreateUser(new UserInfo { });
 
@@ -56,24 +61,23 @@ namespace ConsoleApp2
         public void CreateUser(UserInfo userInfo)
         {
             //userRepository.UnitOfWork.BeginTransaction = true;
-            userRepository.AddEntity(new UserInfo { UserName = "dddddsdfsfsf" });
+            //userRepository.AddEntity(new UserInfo { UserName = "dddddsdfsfsf" });
             //userRepository.UnitOfWork.CommitTransaction();
-           // throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
     public class UserInfo:EntityBase
     {
         public string UserName { get; set; }
 
-    }
-    public class TTS:EntityBase
-    {
+        public string UserPass { get; set; }
 
     }
+
     public class MyContext : DbContextBase<MyContext>
     {
       
-        public override string ConnectionString => "Data Source=.;Initial Catalog=Test_T;Integrated Security=True";
+        public override string ConnectionString => "Data Source=.;Initial Catalog=TestEngine;Integrated Security=True";
         
     }
     public class UserConfiguration : ConfigurationBase<UserInfo>
@@ -83,15 +87,6 @@ namespace ConsoleApp2
         public override void Configure(EntityTypeBuilder<UserInfo> builder)
         {
             builder.ToTable("UserInfo");
-        }
-    }
-    public class UserseConfiguration : ConfigurationBase<TTS>
-    {
-        public override Type DbContextType => typeof(MyContext);
-
-        public override void Configure(EntityTypeBuilder<TTS> builder)
-        {
-            builder.ToTable("TTS");
         }
     }
 
