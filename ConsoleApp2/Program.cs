@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using DL.Core.Ado.SqlServer;
 using DL.Core.ulitity.ui;
-using DL.Core.ulitity.log;
 using Microsoft.Extensions.DependencyInjection;
 using DL.Core.ulitity.finder;
 using DL.Core.EfCore.finderPacks;
@@ -12,6 +11,9 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using DL.Core.ns.EFCore;
+using DL.Core.EfCore.engine;
+using System.Runtime.CompilerServices;
+using DL.Core.ulitity.attubites;
 
 namespace ConsoleApp2
 {
@@ -20,18 +22,20 @@ namespace ConsoleApp2
         static void Main(string[] args)
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddScoped<IEntityBaseFinder, EntityBaseFinder>();
-            services.AddScoped<IEntityConfigurationFinder, EntityConfigurationFinder>();
-            services.AddDbContext<MyContext>();
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUnitOfWorkManager, UnitOfWorkManager>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            var provider = services.BuildServiceProvider();
-            var context = provider.GetService<MyContext>();
-            var service = provider.GetService<IUserService>();
+            services.AddEnginePack<MyContext>();
+           // var service = ServiceLocator.Instace.GetService(typeof(IUserService)) as IUserService;
+           // service.CreateUser(new UserInfo { });
+
+            //services.AddDbContext<MyContext>();
+            //services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            //services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IUnitOfWorkManager, UnitOfWorkManager>();
+            //services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //var provider = services.BuildServiceProvider();
+            //var context = provider.GetService<MyContext>();
+            //var service = provider.GetService<IUserService>();
          
-            service.CreateUser(new UserInfo { });
+            //service.CreateUser(new UserInfo { });
 
 
             Console.ReadKey();
@@ -41,6 +45,7 @@ namespace ConsoleApp2
     {
         void CreateUser(UserInfo userInfo);
     }
+    [DependencyAttbuite(ServiceLifetime.Scoped)]
     public class UserService : IUserService
     {
         private IRepository<UserInfo> userRepository;
@@ -50,9 +55,9 @@ namespace ConsoleApp2
        }
         public void CreateUser(UserInfo userInfo)
         {
-            userRepository.UnitOfWork.BeginTransaction = true;
-            userRepository.AddEntity(new UserInfo { UserName = "奥斯卡印sdfsdfsdf地" });
-            userRepository.UnitOfWork.CommitTransaction();
+            //userRepository.UnitOfWork.BeginTransaction = true;
+            userRepository.AddEntity(new UserInfo { UserName = "dddddsdfsfsf" });
+            //userRepository.UnitOfWork.CommitTransaction();
            // throw new NotImplementedException();
         }
     }

@@ -38,8 +38,7 @@ namespace DL.Core.EfCore
         } 
 
         public IUnitOfWork GetUnitOfWorkByEntity(Type type)
-        {
-        
+        {       
            var context = GetDbContextByEntity(type);
            CurrentDbContext = context;
            context.CurrentUnitOfWork = this;
@@ -55,6 +54,13 @@ namespace DL.Core.EfCore
                 .ToList();
             var dbType = items.FirstOrDefault(x => x.EntityType == type)?.DbContextType;
             var context = Activator.CreateInstance(dbType) as IDbContext;
+            var scopeDictory = provider.GetService<ScopedDictory>();
+            scopeDictory.TryAdd($"dbcontext-{context.ConnectionString}", context);
+            scopeDictory.TryAdd($"dbentity-{type.Name}", context);
+            scopeDictory.TryAdd($"dbconstr-{context.ConnectionString}", CurrentDbContext);
+            scopeDictory.TryAdd($"dbunit-{context.ConnectionString}", CurrentUnitOfWork);
+            scopeDictory.TryAdd($"dbentityunit-{type.Name}", CurrentUnitOfWork);
+            scopeDictory.TryAdd($"dbcontextName-{dbType.Name}", CurrentUnitOfWork);
             return context;
         }
 

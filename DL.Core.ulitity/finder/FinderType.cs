@@ -25,6 +25,7 @@ namespace DL.Core.ulitity.finder
         /// <summary>
         /// 实体配置查找
         /// </summary>
-        EnttiyConfigFinder = 4
+        EnttiyConfigFinder = 4,
+
     }
 }

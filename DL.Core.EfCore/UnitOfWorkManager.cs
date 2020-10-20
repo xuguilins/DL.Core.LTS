@@ -10,30 +10,47 @@ namespace DL.Core.EfCore
 {
     public class UnitOfWorkManager : IUnitOfWorkManager
     {
-        //private static ConcurrentDictionary<string, IDbContext> dbContextDic = new ConcurrentDictionary<string, IDbContext>();
-        //private IServiceProvider _provider;
-        //public UnitOfWorkManager(IServiceProvider serviceProvider)
-        //{
-        //    _provider = serviceProvider;
-        //}
-        //public IDbContext GetDbContextByConnectonString(string connectionString)
-        //{
-        //    return dbContextDic[connectionString];
-        //}
-        //public IDbContext GetDbContextByEntity(Type type)
-        //{
-           
-        //    //获取所有实体配置
-        //    var service = _provider.GetService<IEntityConfigurationFinder>();
-        //    var items = service.FinderAll().Select(x => Activator.CreateInstance(x) as IEntityTypeRegiest)
-        //        .ToList();
-        //    var dbType = items.FirstOrDefault(x => x.EntityType == type)?.DbContextType;
-        //    var context = Activator.CreateInstance(dbType) as IDbContext;
-        //    if (!dbContextDic.ContainsKey(context.ConnectionString))
-        //    {
-        //        dbContextDic.TryAdd(context.ConnectionString, context);
-        //    }
-        //    return context;    
-        //}
+        private IServiceProvider _serviceProvider;
+        private ScopedDictory dic;
+        public UnitOfWorkManager(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+            dic = _serviceProvider.GetService<ScopedDictory>();
+
+        }
+        /// <summary>
+        /// 根据实体类型获取工作上下文
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+       public IUnitOfWork GetUnitOfWorkByEntity(Type type)
+        {
+            var key = $"dbentityunit-{type.Name}";
+            return CreateUniOfWork(key);
+        }
+        /// <summary>
+        /// 根据链接字符串获取工作上下文
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <returns></returns>
+       public  IUnitOfWork GetUnitOfWorkConnectonString(string connectionString)
+        {
+            var key = $"dbunit-{connectionString}";
+            return CreateUniOfWork(key);
+        }
+        /// <summary>
+        /// 根据指定上下文获取工作单元
+        /// </summary>
+        /// <param name="dbType"></param>
+        /// <returns></returns>
+       public IUnitOfWork GetUnitOfWorkByDbContext(Type dbType)
+        {
+            var key = $"dbcontextName-{dbType.Name}";
+            return CreateUniOfWork(key);
+        }
+        private IUnitOfWork CreateUniOfWork(string key)
+        {
+            return dic[key] as IUnitOfWork;
+        }
     }
 }

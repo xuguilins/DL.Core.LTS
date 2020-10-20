@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DL.Core.EfCore
 {
-    public class ScopedDbContextConcurrentDic: ConcurrentDictionary<string,IDbContext>
+    public class ScopedDictory: ConcurrentDictionary<string,object>
     {
         
     }
