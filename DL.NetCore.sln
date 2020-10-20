@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.EfCore", "DL.Core.EfCore\DL.Core.EfCore.csproj", "{6FD5CF4A-B019-4A70-9ADD-4600B6325962}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.Ado", "DL.Core.Ado\DL.Core.Ado.csproj", "{48147009-0DE5-45AF-A78F-989F86AEA561}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.Ado.SqlServer", "DL.Core.Ado.SqlServer\DL.Core.Ado.SqlServer.csproj", "{58912C9D-DF29-4EAD-80F4-B30462317B6E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.Ado.MySql", "DL.Core.Ado.MySql\DL.Core.Ado.MySql.csproj", "{99087896-BD59-4631-8AB0-25698C2E0FBB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.Ado.Oracle", "DL.Core.Ado.Oracle\DL.Core.Ado.Oracle.csproj", "{CE7FE606-9F8D-443A-B079-C3DF28BB69FE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.ulitity", "DL.Core.ulitity\DL.Core.ulitity.csproj", "{31C8AB8F-BAC9-4D37-ACCF-529BBCE12210}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp2", "ConsoleApp2\ConsoleApp2.csproj", "{9824C660-6662-47E6-BD9F-C068DF362F15}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6FD5CF4A-B019-4A70-9ADD-4600B6325962}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FD5CF4A-B019-4A70-9ADD-4600B6325962}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FD5CF4A-B019-4A70-9ADD-4600B6325962}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FD5CF4A-B019-4A70-9ADD-4600B6325962}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48147009-0DE5-45AF-A78F-989F86AEA561}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48147009-0DE5-45AF-A78F-989F86AEA561}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48147009-0DE5-45AF-A78F-989F86AEA561}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48147009-0DE5-45AF-A78F-989F86AEA561}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58912C9D-DF29-4EAD-80F4-B30462317B6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58912C9D-DF29-4EAD-80F4-B30462317B6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58912C9D-DF29-4EAD-80F4-B30462317B6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58912C9D-DF29-4EAD-80F4-B30462317B6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99087896-BD59-4631-8AB0-25698C2E0FBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99087896-BD59-4631-8AB0-25698C2E0FBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99087896-BD59-4631-8AB0-25698C2E0FBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99087896-BD59-4631-8AB0-25698C2E0FBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE7FE606-9F8D-443A-B079-C3DF28BB69FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE7FE606-9F8D-443A-B079-C3DF28BB69FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE7FE606-9F8D-443A-B079-C3DF28BB69FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE7FE606-9F8D-443A-B079-C3DF28BB69FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31C8AB8F-BAC9-4D37-ACCF-529BBCE12210}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31C8AB8F-BAC9-4D37-ACCF-529BBCE12210}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31C8AB8F-BAC9-4D37-ACCF-529BBCE12210}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31C8AB8F-BAC9-4D37-ACCF-529BBCE12210}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9824C660-6662-47E6-BD9F-C068DF362F15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9824C660-6662-47E6-BD9F-C068DF362F15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9824C660-6662-47E6-BD9F-C068DF362F15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9824C660-6662-47E6-BD9F-C068DF362F15}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {827A8357-7308-4B81-B6C9-323E8A285B93}
+	EndGlobalSection
+EndGlobal
