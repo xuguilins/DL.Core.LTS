@@ -15,6 +15,7 @@ using DL.Core.EfCore.engine;
 using System.Runtime.CompilerServices;
 using DL.Core.ulitity.attubites;
 using DL.Core.ulitity.configer;
+using DL.Core.ulitity.log;
 
 namespace ConsoleApp2
 {
@@ -22,6 +23,9 @@ namespace ConsoleApp2
     {
         static void Main(string[] args)
         {
+
+            ILogger logger = LogManager.GetLogger();
+            logger.Debug("sdfsdf");
             //ConfigManager dc = new ConfigManager();
           //  var d = ConfigManager.Build.Mail;
            // var c = ConfigManager.Instance.ConnectionString;
@@ -70,14 +74,18 @@ namespace ConsoleApp2
     {
         public string UserName { get; set; }
 
-        public string UserPass { get; set; }
+        //public string UserPass { get; set; }
 
+    }
+    public class StduentInfo:EntityBase
+    {
+        public string StudentName { get; set; }
     }
 
     public class MyContext : DbContextBase<MyContext>
     {
       
-        public override string ConnectionString => "Data Source=.;Initial Catalog=TestEngine;Integrated Security=True";
+        public override string ConnectionString => "Data Source=.;Initial Catalog=Test_T;Integrated Security=True";
         
     }
     public class UserConfiguration : ConfigurationBase<UserInfo>
@@ -89,5 +97,13 @@ namespace ConsoleApp2
             builder.ToTable("UserInfo");
         }
     }
+    public class StduentInfoConfiguration:ConfigurationBase<StduentInfo>
+    {
+        public override Type DbContextType => typeof(MyContext);
 
+        public override void Configure(EntityTypeBuilder<StduentInfo> builder)
+        {
+            builder.ToTable("StduentInfo");
+        }
+    }
 }

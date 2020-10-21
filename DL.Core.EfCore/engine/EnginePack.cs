@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DL.Core.ulitity.tools;
+using Microsoft.Extensions.Logging;
 
 namespace DL.Core.EfCore.engine
 {
@@ -15,9 +17,9 @@ namespace DL.Core.EfCore.engine
         private static IServiceProvider ServiceProvider; 
         public static IServiceCollection  AddEnginePack<TDContext>(this IServiceCollection  services) where TDContext:DbContext
         {
+          //  ILogger logger = logma
             services.AddDbContext<TDContext>();
             var type = typeof(TDContext);
-           // AutoMigration(type);
             var packFinder = new PackModuleFinder();
             var packTypes= packFinder.FinderAll();
             foreach (var item in packTypes)
@@ -36,7 +38,7 @@ namespace DL.Core.EfCore.engine
             var config = ConfigManager.Build.DbConfig;
             if (config.AutoEFMigrationEnable)
             {
-                var contexts = ServiceProvider.GetServices(dbContext).ToList();  //ServiceLocator.Instace.ServiceProvider.GetServices(dbContext).ToList();
+                var contexts = ServiceProvider.GetServices(dbContext).ToList(); 
                 foreach (var item in contexts)
                 {
                     var context = item as DbContext;
@@ -44,25 +46,15 @@ namespace DL.Core.EfCore.engine
                     {
                         if (context.Database.GetPendingMigrations().Any())
                         {
-                            context.Database.Migrate();
-                           // return "迁移完毕";
-                        }
-                        else
-                        {
-                           // return "未检测到含有启动迁移的文件或数据实体未发生任何改变,请尝试运行 Add-Migration 指令";
+                            context.Database.Migrate();     
                         }
                     }
                     catch (Exception ex)
-                    {
-                      
+                    {  
                         throw new Exception($"自动迁移发生异常，异常原因：{ex.Message}");
                     }
-
-
                 }
-
             }
-
         }
      
     }
