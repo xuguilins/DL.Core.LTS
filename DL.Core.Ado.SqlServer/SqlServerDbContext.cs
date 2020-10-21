@@ -13,6 +13,7 @@ using DL.Core.Ado;
 using DL.Core.Ado.SqlServer;
 using DL.Core.ulitity.attubites;
 using DL.Core.ulitity.table;
+using DL.Core.ulitity.tools;
 
 namespace DL.Core.Ado.SqlServer
 {
@@ -31,6 +32,8 @@ namespace DL.Core.Ado.SqlServer
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(connectionString))
+                    throw new SqlServerException($"无效的数据库链接字符串");
                 if (conPairs.ContainsKey(connectionString))
                 {
                     CurrentDbContext = conPairs[connectionString];
@@ -48,7 +51,7 @@ namespace DL.Core.Ado.SqlServer
                     return _sqlConnection;
                 } 
             }
-            catch (Exception ex)
+            catch (SqlServerException ex)
             {
                 throw ex;
             }
@@ -74,7 +77,7 @@ namespace DL.Core.Ado.SqlServer
         private void ValidateConnection()
         {
             if (_sqlConnection == null || _sqlConnection.State == ConnectionState.Closed)
-                throw new Exception($"无效的数据库链接，请检查数据库链接是否已创建");
+                throw new SqlServerException($"无效的数据库链接，请检查数据库链接是否已创建");
         }
         protected private int ExecuteSql(string sql, CommandType type, params DbParameter[] parameter)
         {
@@ -89,7 +92,7 @@ namespace DL.Core.Ado.SqlServer
                     return com.ExecuteNonQuery();
                 }
             }
-            catch (Exception ex)
+            catch (SqlServerException ex)
             {
 
                 throw ex;
@@ -114,10 +117,10 @@ namespace DL.Core.Ado.SqlServer
                     var right = express.Right as ConstantExpression;
                     var left = express.Left  as MemberExpression; //as express;
                     if (right == null)
-                        throw new Exception("表达式异常，无法解析，请检查表达式右侧的值");
+                        throw new SqlServerException("表达式异常，无法解析，请检查表达式右侧的值");
                    rightValue = right.Value.ToString();                                                       
                     if (left==null)
-                        throw new Exception("表达式异常，无法解析，请检查表达式左侧的式子");
+                        throw new SqlServerException("表达式异常，无法解析，请检查表达式左侧的式子");
                     leftValue = left.Member.Name;
                 }
                 var ex = expression.Body;
@@ -131,7 +134,7 @@ namespace DL.Core.Ado.SqlServer
                 var entity = table.ToObject<TEntity>();
                 return entity;
             }
-            catch (Exception ex)
+            catch (SqlServerException ex)
             {
 
                 throw ex;
@@ -153,15 +156,15 @@ namespace DL.Core.Ado.SqlServer
         {
             bool result = false;
             if (!BeginTransaction)
-                throw new Exception("请检查事务是否开启");
+                throw new SqlServerException("请检查事务是否开启");
             if (_sqlTransaction == null)
-                throw new Exception("无效的事务对象");
+                throw new SqlServerException("无效的事务对象");
             try
             {
                 _sqlTransaction.Commit();
                 result = true;
             }
-            catch (Exception ex)
+            catch (SqlServerException ex)
             {
                 _sqlTransaction.Rollback();  
             }
@@ -199,7 +202,7 @@ namespace DL.Core.Ado.SqlServer
                 var executeSql = sb.ToString();
                 return ExecuteNonQuery(executeSql, CommandType.Text);
             }
-            catch (Exception ex)
+            catch (SqlServerException ex)
             {
 
                 throw ex;
@@ -211,9 +214,9 @@ namespace DL.Core.Ado.SqlServer
             try
             {
                 if (entities == null)
-                    throw new Exception($"请传入有效的实体对象");
+                    throw new SqlServerException($"请传入有效的实体对象");
                 if (!entities.Any())
-                    throw new Exception("请传入有效的对象数据");
+                    throw new SqlServerException("请传入有效的对象数据");
                 var entity = entities.FirstOrDefault();
                 var type = entity.GetType();
                 var props = type.GetProperties();
@@ -237,7 +240,7 @@ namespace DL.Core.Ado.SqlServer
                 var executeSql = sb.ToString();
                 return ExecuteSql(executeSql, CommandType.Text);
             }
-            catch (Exception ex)
+            catch (SqlServerException ex)
             {
 
                 throw ex;
@@ -262,7 +265,7 @@ namespace DL.Core.Ado.SqlServer
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SqlServerException ex)
             {
 
                 throw ex;
@@ -286,7 +289,7 @@ namespace DL.Core.Ado.SqlServer
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SqlServerException ex)
             {
 
                 throw ex;
@@ -305,7 +308,7 @@ namespace DL.Core.Ado.SqlServer
                     return com.ExecuteScalar();
                 }
             }
-            catch (Exception ex)
+            catch (SqlServerException ex)
             {
 
                 throw ex;

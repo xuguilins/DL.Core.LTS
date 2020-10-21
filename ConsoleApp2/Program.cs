@@ -46,6 +46,7 @@ namespace ConsoleApp2
 
             //service.CreateUser(new UserInfo { });
             ISqlServerDbContext context = new SqlServerDbContext();
+            context.CreateDbConnection("");
             context.Set<UserInfo>();
 
 
