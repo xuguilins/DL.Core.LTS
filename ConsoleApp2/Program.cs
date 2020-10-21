@@ -24,16 +24,16 @@ namespace ConsoleApp2
         static void Main(string[] args)
         {
 
-            ILogger logger = LogManager.GetLogger();
-            logger.Debug("sdfsdf");
+            //  ILogger logger = LogManager.GetLogger();
+            // logger.Debug("sdfsdf");
             //ConfigManager dc = new ConfigManager();
-          //  var d = ConfigManager.Build.Mail;
-           // var c = ConfigManager.Instance.ConnectionString;
-            IServiceCollection services = new ServiceCollection();
-           services.AddEnginePack<MyContext>();
-            
-           // var service = ServiceLocator.Instace.GetService(typeof(IUserService)) as IUserService;
-           // service.CreateUser(new UserInfo { });
+            //  var d = ConfigManager.Build.Mail;
+            // var c = ConfigManager.Instance.ConnectionString;
+            // IServiceCollection services = new ServiceCollection();
+            // services.AddEnginePack<MyContext>();
+
+            // var service = ServiceLocator.Instace.GetService(typeof(IUserService)) as IUserService;
+            // service.CreateUser(new UserInfo { });
 
             //services.AddDbContext<MyContext>();
             //services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -43,8 +43,10 @@ namespace ConsoleApp2
             //var provider = services.BuildServiceProvider();
             //var context = provider.GetService<MyContext>();
             //var service = provider.GetService<IUserService>();
-         
+
             //service.CreateUser(new UserInfo { });
+            ISqlServerDbContext context = new SqlServerDbContext();
+            context.Set<UserInfo>();
 
 
             Console.ReadKey();
@@ -70,6 +72,7 @@ namespace ConsoleApp2
             //throw new NotImplementedException();
         }
     }
+    [TableAttubite("UserData")]
     public class UserInfo:EntityBase
     {
         public string UserName { get; set; }

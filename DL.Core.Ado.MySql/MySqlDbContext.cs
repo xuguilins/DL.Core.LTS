@@ -1,28 +1,25 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.Design;
+using System.Text;
+using MySql.Data.MySqlClient;
+using MySql.Data.Common;
+using System.Collections.Concurrent;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using DL.Core.Ado;
-using DL.Core.Ado.SqlServer;
-using DL.Core.ulitity.attubites;
+using System.Linq;
 using DL.Core.ulitity.table;
+using DL.Core.ulitity.attubites;
 
-namespace DL.Core.Ado.SqlServer
+namespace DL.Core.Ado.MySql
 {
-    public class SqlServerDbContext : DataBaseContext, ISqlServerDbContext
+    public class MySqlDbContext:DataBaseContext, IMySqlDbContext
     {
-
-        private SqlConnection _sqlConnection;
-        private SqlTransaction _sqlTransaction;
+       
+        private MySqlConnection _MySqlConnection;
+        private MySqlTransaction _MySqlTransaction;
         private bool _begintransaction = false;
-        private static readonly ConcurrentDictionary<string, SqlConnection> conPairs = new ConcurrentDictionary<string, SqlConnection>();
+        private static readonly ConcurrentDictionary<string, MySqlConnection> conPairs = new ConcurrentDictionary<string, MySqlConnection>();
 
         public override DataBaseType Type => DataBaseType.SqlServer;
         public string CurrentConnectionString { get; private set; }
@@ -35,18 +32,19 @@ namespace DL.Core.Ado.SqlServer
                 {
                     CurrentDbContext = conPairs[connectionString];
                     return conPairs[connectionString];
-                } else
+                }
+                else
                 {
-                    _sqlConnection = new SqlConnection(connectionString);
-                    if (_sqlConnection != null && _sqlConnection.State == ConnectionState.Closed)
+                    _MySqlConnection = new MySqlConnection(connectionString);
+                    if (_MySqlConnection != null && _MySqlConnection.State == ConnectionState.Closed)
                     {
-                        _sqlConnection.Open();
+                        _MySqlConnection.Open();
                         CurrentConnectionString = connectionString;
 
                     }
-                    CurrentDbContext = _sqlConnection;
-                    return _sqlConnection;
-                } 
+                    CurrentDbContext = _MySqlConnection;
+                    return _MySqlConnection;
+                }
             }
             catch (Exception ex)
             {
@@ -63,25 +61,26 @@ namespace DL.Core.Ado.SqlServer
             {
                 if (value)
                 {
-                    if (_sqlTransaction == null)
-                        _sqlTransaction = _sqlConnection.BeginTransaction();
+                    if (_MySqlTransaction == null)
+                        _MySqlTransaction = _MySqlConnection.BeginTransaction();
                 }
                 _begintransaction = value;
             }
 
         }
-        public IDbTransaction CurrentDbTransaction => _sqlTransaction;
+        public IDbTransaction CurrentDbTransaction => _MySqlTransaction;
         private void ValidateConnection()
         {
-            if (_sqlConnection == null || _sqlConnection.State == ConnectionState.Closed)
+            if (_MySqlConnection == null || _MySqlConnection.State == ConnectionState.Closed)
                 throw new Exception($"无效的数据库链接，请检查数据库链接是否已创建");
         }
         protected private int ExecuteSql(string sql, CommandType type, params DbParameter[] parameter)
         {
             try
             {
+                
                 ValidateConnection();
-                using (SqlCommand com = new SqlCommand(sql, _sqlConnection, _sqlTransaction))
+                using (MySqlCommand com = new MySqlCommand(sql, _MySqlConnection, _MySqlTransaction))
                 {
                     com.CommandText = sql;
                     com.Parameters.AddRange(parameter);
@@ -100,23 +99,23 @@ namespace DL.Core.Ado.SqlServer
         {
             return ExecuteSql(sql, type, parameter);
         }
-        public TEntity SetSingle<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class,new()
+        public TEntity SetSingle<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : class, new()
         {
             try
             {
-              
+
                 var express = expression.Body as BinaryExpression;
                 string sqlWhere = string.Empty;
                 string rightValue = string.Empty;
                 string leftValue = string.Empty;
-                if (express!=null)
+                if (express != null)
                 {
                     var right = express.Right as ConstantExpression;
-                    var left = express.Left  as MemberExpression; //as express;
+                    var left = express.Left as MemberExpression; //as express;
                     if (right == null)
                         throw new Exception("表达式异常，无法解析，请检查表达式右侧的值");
-                   rightValue = right.Value.ToString();                                                       
-                    if (left==null)
+                    rightValue = right.Value.ToString();
+                    if (left == null)
                         throw new Exception("表达式异常，无法解析，请检查表达式左侧的式子");
                     leftValue = left.Member.Name;
                 }
@@ -138,7 +137,7 @@ namespace DL.Core.Ado.SqlServer
             }
         }
 
-        public List<TEntity> Set<TEntity>() where TEntity:class,new()
+        public List<TEntity> Set<TEntity>() where TEntity : class, new()
         {
             var model = new TEntity();
             var type = model.GetType();
@@ -154,23 +153,23 @@ namespace DL.Core.Ado.SqlServer
             bool result = false;
             if (!BeginTransaction)
                 throw new Exception("请检查事务是否开启");
-            if (_sqlTransaction == null)
+            if (_MySqlTransaction == null)
                 throw new Exception("无效的事务对象");
             try
             {
-                _sqlTransaction.Commit();
+                _MySqlTransaction.Commit();
                 result = true;
             }
             catch (Exception ex)
             {
-                _sqlTransaction.Rollback();  
+                _MySqlTransaction.Rollback();
             }
             finally
             {
-                if (_sqlTransaction != null)
+                if (_MySqlTransaction != null)
                 {
-                    _sqlTransaction.Dispose();
-                    _sqlTransaction = null;
+                    _MySqlTransaction.Dispose();
+                    _MySqlTransaction = null;
                 }
             }
 
@@ -180,10 +179,10 @@ namespace DL.Core.Ado.SqlServer
         {
             try
             {
-                var type = entity.GetType();         
+                var type = entity.GetType();
                 var props = type.GetProperties();
                 var itemCodes = string.Join(",", props.Select(x => x.Name));
-                var tableName = GetTableName(type);// string.Empty;
+                var tableName = GetTableName(type);
                 StringBuilder sb = new StringBuilder();
                 sb.Append($"INSERT INTO  {tableName}({itemCodes})VALUES(");
                 string strValues = string.Empty;
@@ -204,7 +203,7 @@ namespace DL.Core.Ado.SqlServer
 
                 throw ex;
             }
-      
+
         }
         public int InsertItems<TEntity>(List<TEntity> entities) where TEntity : class
         {
@@ -242,7 +241,7 @@ namespace DL.Core.Ado.SqlServer
 
                 throw ex;
             }
-          
+
 
         }
         public override DataTable GetDataTable(string sql, CommandType type, params DbParameter[] parameter)
@@ -250,12 +249,13 @@ namespace DL.Core.Ado.SqlServer
             try
             {
                 ValidateConnection();
-                using (SqlCommand com = new SqlCommand(sql, _sqlConnection))
+                using (MySqlCommand com = new MySqlCommand(sql, _MySqlConnection))
                 {
                     com.CommandType = type;
                     com.Parameters.AddRange(parameter);
                     DataTable dt = new DataTable();
-                    using (SqlDataAdapter da = new SqlDataAdapter(com))
+                    
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(com))
                     {
                         da.Fill(dt);
                         return dt;
@@ -267,19 +267,19 @@ namespace DL.Core.Ado.SqlServer
 
                 throw ex;
             }
-            
+
         }
         public override DataSet GetDataSet(string sql, CommandType type, params DbParameter[] parameter)
         {
             try
             {
                 ValidateConnection();
-                using (SqlCommand com = new SqlCommand(sql, _sqlConnection))
+                using (MySqlCommand com = new MySqlCommand(sql, _MySqlConnection))
                 {
                     com.CommandType = type;
                     com.Parameters.AddRange(parameter);
                     DataSet ds = new DataSet();
-                    using (SqlDataAdapter da = new SqlDataAdapter(com))
+                    using (MySqlDataAdapter da = new MySqlDataAdapter(com))
                     {
                         da.Fill(ds);
                         return ds;
@@ -297,7 +297,7 @@ namespace DL.Core.Ado.SqlServer
             try
             {
                 ValidateConnection();
-                using (SqlCommand com = new SqlCommand(sql, _sqlConnection, _sqlTransaction))
+                using (MySqlCommand com = new MySqlCommand(sql, _MySqlConnection, _MySqlTransaction))
                 {
                     com.CommandText = sql;
                     com.Parameters.AddRange(parameter);
@@ -316,10 +316,12 @@ namespace DL.Core.Ado.SqlServer
         private string GetTableName(Type type)
         {
             var attbuite = type.GetCustomAttributes(false);
-            if (attbuite!=null && attbuite.Length > 0) {
+            if (attbuite != null && attbuite.Length > 0)
+            {
                 var tableAttbuite = attbuite[0] as TableAttubite;
                 return tableAttbuite.TableName;
-            } else
+            }
+            else
             {
                 return type.Name;
             }

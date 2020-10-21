@@ -57,7 +57,7 @@ namespace DL.Core.ulitity.configer
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public  DbConfig GetDLDbSetting()
+        private  DbConfig GetDLDbSetting()
         {
             var config = Configuration.GetSection("DL:Setting:DbConfig");
             var db = new DbConfig();
@@ -71,7 +71,7 @@ namespace DL.Core.ulitity.configer
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public  SwaggerConfig GetSwaggerSetting()
+        private  SwaggerConfig GetSwaggerSetting()
         {
             var swg = new SwaggerConfig();
             var config = Configuration.GetSection("DL:Setting:Swagger");
@@ -91,7 +91,7 @@ namespace DL.Core.ulitity.configer
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public  ConnectionString GetConStrSetting()
+        private  ConnectionString GetConStrSetting()
         {
             var con = new ConnectionString();
             con.Default = Configuration["ConnectionString:default"];
