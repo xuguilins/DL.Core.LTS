@@ -16,6 +16,9 @@ using System.Runtime.CompilerServices;
 using DL.Core.ulitity.attubites;
 using DL.Core.ulitity.configer;
 using DL.Core.ulitity.log;
+using System.Configuration;
+using Microsoft.IdentityModel.Protocols;
+using Microsoft.Extensions.Configuration;
 
 namespace ConsoleApp2
 {
@@ -23,8 +26,9 @@ namespace ConsoleApp2
     {
         static void Main(string[] args)
         {
-
-            //  ILogger logger = LogManager.GetLogger();
+            //var a = XmlConfigManager.Instance.GetSetting("appid");
+            //var b = XmlConfigManager.Instance.GetHost("appurl");
+           // Console.WriteLine($"a:{a},b:{b}");
             // logger.Debug("sdfsdf");
             //ConfigManager dc = new ConfigManager();
             //  var d = ConfigManager.Build.Mail;
@@ -45,9 +49,9 @@ namespace ConsoleApp2
             //var service = provider.GetService<IUserService>();
 
             //service.CreateUser(new UserInfo { });
-            ISqlServerDbContext context = new SqlServerDbContext();
-            context.CreateDbConnection("");
-            context.Set<UserInfo>();
+            // ISqlServerDbContext context = new SqlServerDbContext();
+            // context.CreateDbConnection("");
+            // context.Set<UserInfo>();
 
 
             Console.ReadKey();

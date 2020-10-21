@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DLConfig>
+	<Host>
+		<add key="appurl" value="http://www.baidu.com"></add>
+		<add key="userapi" value="11111"></add>
+   </Host>
+   <Setting>
+	   <add key="appid" value="121"></add>
+   </Setting>
+</DLConfig> 
