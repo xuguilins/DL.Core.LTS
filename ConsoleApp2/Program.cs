@@ -26,9 +26,20 @@ namespace ConsoleApp2
     {
         static void Main(string[] args)
         {
+            ISqlServerDbContext context = new SqlServerDbContext();
+            context.CreateDbConnection("Data Source=.;Initial Catalog=Test_T;Integrated Security=True");
+            context.Insert(new UserInfo { UserName = "aaa", IsEnable = false });
+
+
+
+
+
+
+
+
             //var a = XmlConfigManager.Instance.GetSetting("appid");
             //var b = XmlConfigManager.Instance.GetHost("appurl");
-           // Console.WriteLine($"a:{a},b:{b}");
+            // Console.WriteLine($"a:{a},b:{b}");
             // logger.Debug("sdfsdf");
             //ConfigManager dc = new ConfigManager();
             //  var d = ConfigManager.Build.Mail;
@@ -49,9 +60,7 @@ namespace ConsoleApp2
             //var service = provider.GetService<IUserService>();
 
             //service.CreateUser(new UserInfo { });
-            // ISqlServerDbContext context = new SqlServerDbContext();
-            // context.CreateDbConnection("");
-            // context.Set<UserInfo>();
+
 
 
             Console.ReadKey();
@@ -82,6 +91,7 @@ namespace ConsoleApp2
     {
         public string UserName { get; set; }
 
+        public bool IsEnable { get; set; }
         //public string UserPass { get; set; }
 
     }
