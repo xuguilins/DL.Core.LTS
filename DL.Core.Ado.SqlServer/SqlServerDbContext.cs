@@ -11,7 +11,9 @@ using System.Linq.Expressions;
 using System.Text;
 using DL.Core.Ado;
 using DL.Core.Ado.SqlServer;
+using DL.Core.Ado.SqlServer.finders;
 using DL.Core.ulitity.attubites;
+using DL.Core.ulitity.configer;
 using DL.Core.ulitity.table;
 using DL.Core.ulitity.tools;
 
@@ -79,6 +81,41 @@ namespace DL.Core.Ado.SqlServer
             if (_sqlConnection == null || _sqlConnection.State == ConnectionState.Closed)
                 throw new SqlServerException($"无效的数据库链接，请检查数据库链接是否已创建");
         }
+        public void AutoInitDataBaseTable()
+        {
+            var config = ConfigManager.Build.DbConfig;
+            if (config != null && config.AutoAdoNetMiagraionEnable)
+            {
+                IAdoEntityFinder finder = new AdoEntityFinder();
+                var items = finder.FinderAll();
+                StringBuilder sb = new StringBuilder();
+                foreach (var entity in items)
+                {
+                    var type = entity.GetType();
+                    var tableName = GetTableName(type);
+                    sb.Append($"CREATE TABLE {tableName} ");
+                    sb.Append("(");
+                    var props = type.GetProperties();
+                    foreach (var item in props)
+                    {
+                        var length = CreateHelper.GetLength(item).ToString();
+                        var typeName = CreateHelper.ParsePropType(item.PropertyType.Name, length);
+                        if (item.Name.ToLower() == "id")
+                        {
+                            sb.Append($"{item.Name} {typeName} primary key not null, ");
+                        } else
+                        {
+                            sb.Append($"{item.Name} {typeName},");
+                        }
+                    }
+                    sb.Append(")");
+
+
+                }
+                ValidateConnection();
+                ExecuteSql(sb.ToString(), CommandType.Text);
+            }
+        }
         protected private int ExecuteSql(string sql, CommandType type, params DbParameter[] parameter)
         {
             try
@@ -99,6 +136,8 @@ namespace DL.Core.Ado.SqlServer
             }
 
         }
+
+       // protected private 
         public override int ExecuteNonQuery(string sql, CommandType type, params DbParameter[] parameter)
         {
             return ExecuteSql(sql, type, parameter);

@@ -27,12 +27,8 @@ namespace ConsoleApp2
         static void Main(string[] args)
         {
             ISqlServerDbContext context = new SqlServerDbContext();
-            context.CreateDbConnection("Data Source=.;Initial Catalog=Test_T;Integrated Security=True");
-            context.Insert(new UserInfo { UserName = "aaa", IsEnable = false });
-
-
-
-
+            context.CreateDbConnection("Data Source=.;Initial Catalog=TestEngine;Integrated Security=True");
+            context.AutoInitDataBaseTable();
 
 
 
@@ -95,8 +91,10 @@ namespace ConsoleApp2
         //public string UserPass { get; set; }
 
     }
+    [TableAttubite("StudentInfo")]
     public class StduentInfo:EntityBase
     {
+        [ColummLengthAttbuite(100)]
         public string StudentName { get; set; }
     }
 

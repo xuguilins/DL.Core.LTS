@@ -9,6 +9,7 @@ namespace DL.Core.Ado.SqlServer
 {
     public interface ISqlServerDbContext:IDataBaseContext
     {
+        void AutoInitDataBaseTable();
         /// <summary>
         /// 创建数据库链接
         /// </summary>
