@@ -328,5 +328,14 @@ namespace DL.Core.Ado.MySql
 
 
         }
+
+        public override DataTable GetPageDataTable(string tableName, int pageIndex, int pageSize, string orderByFiled, out int totalCount, string filterSql = null)
+        {
+            throw new NotImplementedException();
+        }
+        public override DataSet GetPageDataSet(string tableName, int pageIndex, int pageSize, string orderByFiled, out int totalCount, string filterSql = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
