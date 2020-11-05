@@ -20,6 +20,7 @@ using System.Configuration;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.Extensions.Configuration;
 using System.Data;
+using System.Globalization;
 
 namespace ConsoleApp2
 {
@@ -28,12 +29,27 @@ namespace ConsoleApp2
         //  static List<RootBpmUser> list = new List<RootBpmUser>();
         static void Main(string[] args)
         {
-            ISqlServerDbContext context = new SqlServerDbContext();
-            context.CreateDbConnection("Data Source=10.10.12.25;Initial Catalog=BPMDB;User ID=sa;Password=bpm123#");
-            int count = 0;
-            var table = context.GetPageDataTable("BPMSysUsers", 1, 5, "Account", out count, "AND DisplayName LIKE '%王%'");
 
+            var week = GetWeekOfYear(DateTime.Now);
+            Console.WriteLine(week);
+
+  
             Console.ReadKey();
+        }
+     
+        public static Tuple<DateTime, DateTime> GetFirstEndDayOfWeek(int year, int weekNumber, System.Globalization.CultureInfo culture)
+        {
+            System.Globalization.Calendar calendar = culture.Calendar;
+            DateTime firstOfYear = new DateTime(year, 1, 1, calendar);
+            DateTime targetDay = calendar.AddWeeks(firstOfYear, weekNumber - 1);
+            DayOfWeek firstDayOfWeek = culture.DateTimeFormat.FirstDayOfWeek;
+
+            while (targetDay.DayOfWeek != firstDayOfWeek)
+            {
+                targetDay = targetDay.AddDays(-1);
+            }
+
+            return Tuple.Create<DateTime, DateTime>(targetDay, targetDay.AddDays(6));
         }
         public static List<RootBpmUser> GetRecoveBpmUser(ISqlServerDbContext context, string parentId = null)
         {

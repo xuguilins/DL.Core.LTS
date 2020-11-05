@@ -16,7 +16,6 @@ using DL.Core.ulitity.attubites;
 using DL.Core.ulitity.configer;
 using DL.Core.ulitity.table;
 using DL.Core.ulitity.tools;
-
 namespace DL.Core.Ado.SqlServer
 {
     public class SqlServerDbContext : DataBaseContext, ISqlServerDbContext
