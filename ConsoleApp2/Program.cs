@@ -19,114 +19,101 @@ using DL.Core.ulitity.log;
 using System.Configuration;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.Extensions.Configuration;
+using System.Data;
+using System.Globalization;
 
 namespace ConsoleApp2
 {
     class Program
     {
+        //  static List<RootBpmUser> list = new List<RootBpmUser>();
         static void Main(string[] args)
         {
 
-            var type = typeof(Program);
-            var methods = type.GetMethod("Spak");
-            var name = "徐贵林";
-            var instance = Activator.CreateInstance(type);
-            methods.Invoke(instance, new  object[]{ "胜多负少"});
+            var week = GetWeekOfYear(DateTime.Now);
+            Console.WriteLine(week);
 
-            //var a = XmlConfigManager.Instance.GetSetting("appid");
-            //var b = XmlConfigManager.Instance.GetHost("appurl");
-            // Console.WriteLine($"a:{a},b:{b}");
-            // logger.Debug("sdfsdf");
-            //ConfigManager dc = new ConfigManager();
-            //  var d = ConfigManager.Build.Mail;
-            // var c = ConfigManager.Instance.ConnectionString;
-            // IServiceCollection services = new ServiceCollection();
-            // services.AddEnginePack<MyContext>();
-
-            // var service = ServiceLocator.Instace.GetService(typeof(IUserService)) as IUserService;
-            // service.CreateUser(new UserInfo { });
-
-            //services.AddDbContext<MyContext>();
-            //services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            //services.AddScoped<IUserService, UserService>();
-            //services.AddScoped<IUnitOfWorkManager, UnitOfWorkManager>();
-            //services.AddScoped<IUnitOfWork, UnitOfWork>();
-            //var provider = services.BuildServiceProvider();
-            //var context = provider.GetService<MyContext>();
-            //var service = provider.GetService<IUserService>();
-
-            //service.CreateUser(new UserInfo { });
-
-
-
+  
             Console.ReadKey();
         }
-
-        public void Spak(string name)
-        {
-            Console.WriteLine($"说话{name}");
-        }
-
-    }
      
-    public interface IUserService
-    {
-        void CreateUser(UserInfo userInfo);
-    }
-    [DependencyAttbuite(ServiceLifetime.Scoped)]
-    public class UserService : IUserService
-    {
-        private IRepository<UserInfo> userRepository;
-         public UserService(IRepository<UserInfo> serRepository)
+        public static Tuple<DateTime, DateTime> GetFirstEndDayOfWeek(int year, int weekNumber, System.Globalization.CultureInfo culture)
         {
-            userRepository = serRepository;
-       }
-        public void CreateUser(UserInfo userInfo)
-        {
-            //userRepository.UnitOfWork.BeginTransaction = true;
-            //userRepository.AddEntity(new UserInfo { UserName = "dddddsdfsfsf" });
-            //userRepository.UnitOfWork.CommitTransaction();
-            //throw new NotImplementedException();
+            System.Globalization.Calendar calendar = culture.Calendar;
+            DateTime firstOfYear = new DateTime(year, 1, 1, calendar);
+            DateTime targetDay = calendar.AddWeeks(firstOfYear, weekNumber - 1);
+            DayOfWeek firstDayOfWeek = culture.DateTimeFormat.FirstDayOfWeek;
+
+            while (targetDay.DayOfWeek != firstDayOfWeek)
+            {
+                targetDay = targetDay.AddDays(-1);
+            }
+
+            return Tuple.Create<DateTime, DateTime>(targetDay, targetDay.AddDays(6));
         }
-    }
-    [TableAttubite("UserData")]
-    public class UserInfo:EntityBase
-    {
-        public string UserName { get; set; }
-
-        public bool IsEnable { get; set; }
-        //public string UserPass { get; set; }
-
-    }
-    [TableAttubite("StudentInfo")]
-    public class StduentInfo:EntityBase
-    {
-        [ColummLengthAttbuite(100)]
-        public string StudentName { get; set; }
-    }
-
-    public class MyContext : DbContextBase<MyContext>
-    {
-      
-        public override string ConnectionString => "Data Source=.;Initial Catalog=Test_T;Integrated Security=True";
-        
-    }
-    public class UserConfiguration : ConfigurationBase<UserInfo>
-    {
-        public override Type DbContextType => typeof(MyContext);
-
-        public override void Configure(EntityTypeBuilder<UserInfo> builder)
+        public static List<RootBpmUser> GetRecoveBpmUser(ISqlServerDbContext context, string parentId = null)
         {
-            builder.ToTable("UserInfo");
-        }
-    }
-    public class StduentInfoConfiguration:ConfigurationBase<StduentInfo>
-    {
-        public override Type DbContextType => typeof(MyContext);
+            List<RootBpmUser> list = new List<RootBpmUser>();
+            string sql = string.Empty;
+            DataTable dt = null;
+            if (parentId == null)
+            {
+                sql = "select * from BPMSysOUs where ParentOUID IS NULL ";
+                dt = context.GetDataTable(sql, CommandType.Text);
 
-        public override void Configure(EntityTypeBuilder<StduentInfo> builder)
-        {
-            builder.ToTable("StduentInfo");
+            }
+            else if (parentId == "3") {
+
+                sql = "SELECT * FROM BPMSysOUs WHERE ParentOUID='" + parentId + "'  and OUName like '%系'";
+                dt = context.GetDataTable(sql, CommandType.Text);
+            } else
+            {
+                sql = "SELECT * FROM BPMSysOUs WHERE ParentOUID='" + parentId + "'";
+                dt = context.GetDataTable(sql, CommandType.Text);
+            }
+            foreach (DataRow row in dt.Rows)
+            {
+                RootBpmUser bpm = new RootBpmUser();
+                if (row["OUID"] != DBNull.Value)
+                    bpm.OUID = row["OUID"].ToString();
+                if (row["OUNAME"] != DBNull.Value)
+                    bpm.OUNAME = row["OUNAME"].ToString();
+                if (row["ParentOUID"] != DBNull.Value)
+                    bpm.ParentId = row["ParentOUID"].ToString();
+                if (row["OULevel"] != DBNull.Value)
+                    bpm.OULevel = row["OULevel"].ToString();
+                if (row["Code"] != DBNull.Value)
+                    bpm.Code = row["Code"].ToString();
+                if (row["OrderIndex"] != DBNull.Value)
+                    bpm.OrderIndex = row["OrderIndex"].ToString();
+                bpm.childers = GetRecoveBpmUser(context, bpm.OUID);
+                list.Add(bpm);
+            }
+            return list;
         }
+        //  public static BpmUserInfo 
+
+    }
+    public class RootBpmUser
+    {
+        public string OUID { get; set; }
+        public string OUNAME { get; set; }
+        public string ParentId { get; set; }
+        public string OULevel { get; set; }
+        public string Code { get; set; }
+        public string OrderIndex { get; set; }
+        public List<RootBpmUser> childers { get; set; }
+
+    }
+    public class BpmUserInfo
+    {
+        public string OUID { get; set; }
+        public string OUNAME { get; set; }
+        public string ParentId { get; set; }
+        public string OULevel { get; set; }
+        public string Code { get; set; }
+        public int OrderIndex { get; set; }
+
     }
 }
+   

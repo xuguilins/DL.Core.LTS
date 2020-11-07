@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.ulitity", "DL.Core.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp2", "ConsoleApp2\ConsoleApp2.csproj", "{9824C660-6662-47E6-BD9F-C068DF362F15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DL.Core.Swagger", "DL.Core.Swagger\DL.Core.Swagger.csproj", "{1A069F63-E77F-4AD2-91F1-4395DB0B01C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.Swagger", "DL.Core.Swagger\DL.Core.Swagger.csproj", "{1A069F63-E77F-4AD2-91F1-4395DB0B01C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{5AA0652E-0804-416D-9A32-3CF3B3AD7E36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{5AA0652E-0804-416D-9A32-3CF3B3AD7E36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp3", "ConsoleApp3\ConsoleApp3.csproj", "{4834130D-21F2-4C99-8E65-12F5058E47D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{5AA0652E-0804-416D-9A32-3CF3B3AD7E36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AA0652E-0804-416D-9A32-3CF3B3AD7E36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AA0652E-0804-416D-9A32-3CF3B3AD7E36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4834130D-21F2-4C99-8E65-12F5058E47D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4834130D-21F2-4C99-8E65-12F5058E47D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4834130D-21F2-4C99-8E65-12F5058E47D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4834130D-21F2-4C99-8E65-12F5058E47D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

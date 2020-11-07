@@ -16,7 +16,6 @@ using DL.Core.ulitity.attubites;
 using DL.Core.ulitity.configer;
 using DL.Core.ulitity.table;
 using DL.Core.ulitity.tools;
-
 namespace DL.Core.Ado.SqlServer
 {
     public class SqlServerDbContext : DataBaseContext, ISqlServerDbContext
@@ -299,6 +298,7 @@ namespace DL.Core.Ado.SqlServer
                     DataTable dt = new DataTable();
                     using (SqlDataAdapter da = new SqlDataAdapter(com))
                     {
+                      
                         da.Fill(dt);
                         return dt;
                     }
@@ -367,6 +367,71 @@ namespace DL.Core.Ado.SqlServer
             }
 
 
+        }
+
+        public override DataTable GetPageDataTable(string tableName, int pageIndex, int pageSize, string orderByFiled, out int totalCount, string filterSql = null)
+        {
+            totalCount = 0;
+            //统计记录数
+            if (!string.IsNullOrWhiteSpace(filterSql))
+            {
+                //统计数量
+                var totalSql = $"SELECT COUNT(1) AS TotalCount FROM {tableName} where  1=1 {filterSql}";
+                totalCount = Convert.ToInt32(ExecuteScalar(totalSql, CommandType.Text));
+                int start = (pageIndex - 1) * pageSize + 1;
+                int end = pageIndex * pageSize;
+                var sql = $"SELECT * FROM (select  ROW_NUMBER() OVER(ORDER BY {orderByFiled}) AS num ,   * FROM {tableName} where 1=1 {filterSql}  ) AS T WHERE T.num>={start} and T.num<={end}";
+                return GetDataTable(sql, CommandType.Text);
+
+            } else
+            {
+                //统计数量
+                var totalSql = $"SELECT COUNT(1) AS TotalCount FROM {tableName}";
+                totalCount = Convert.ToInt32(ExecuteScalar(totalSql, CommandType.Text));
+                //计算索引
+                int start = (pageIndex - 1) * pageSize + 1;
+                int end = pageIndex * pageSize;
+                var sql = $"SELECT * FROM (select  ROW_NUMBER() OVER(ORDER BY {orderByFiled}) AS num ,   * FROM {tableName} where 1=1   ) AS T WHERE T.num>={start} and T.num<={end}";
+                return GetDataTable(sql, CommandType.Text);
+            }
+        }
+
+        /// <summary>
+        /// 分页获取数据表格
+        /// </summary>
+        /// <param name="tableName">数据表名称</param>
+        /// <param name="pageIndex">当前页码值</param>
+        /// <param name="pageSize">每页显示记录数</param>
+        /// <param name="orderByFiled">排序号</param>
+        /// <param name="totalCount">总记录数</param>
+        /// <param name="filterSql">查询语句，'AND XXXX'</param>
+        /// <returns></returns>
+       public override DataSet GetPageDataSet(string tableName, int pageIndex, int pageSize, string orderByFiled, out int totalCount, string filterSql = null)
+       {
+            totalCount = 0;
+            //统计记录数
+            if (!string.IsNullOrWhiteSpace(filterSql))
+            {
+                //统计数量
+                var totalSql = $"SELECT COUNT(1) AS TotalCount FROM {tableName} where  1=1 {filterSql}";
+                totalCount = Convert.ToInt32(ExecuteScalar(totalSql, CommandType.Text));
+                int start = (pageIndex - 1) * pageSize + 1;
+                int end = pageIndex * pageSize;
+                var sql = $"SELECT * FROM (select  ROW_NUMBER() OVER(ORDER BY {orderByFiled}) AS num ,   * FROM {tableName} where 1=1 {filterSql}  ) AS T WHERE T.num>={start} and T.num<={end}";
+                return GetDataSet(sql, CommandType.Text);
+
+            }
+            else
+            {
+                //统计数量
+                var totalSql = $"SELECT COUNT(1) AS TotalCount FROM {tableName}";
+                totalCount = Convert.ToInt32(ExecuteScalar(totalSql, CommandType.Text));
+                //计算索引
+                int start = (pageIndex - 1) * pageSize + 1;
+                int end = pageIndex * pageSize;
+                var sql = $"SELECT * FROM (select  ROW_NUMBER() OVER(ORDER BY {orderByFiled}) AS num ,   * FROM {tableName} where 1=1   ) AS T WHERE T.num>={start} and T.num<={end}";
+                return GetDataSet(sql, CommandType.Text);
+            }
         }
     }
 }

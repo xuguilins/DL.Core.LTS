@@ -71,9 +71,6 @@ namespace DL.Core.Swagger
                                             new string[] { }
                                         }
                                     });
-
-
-
                                 }
                                 if (string.IsNullOrWhiteSpace(swg.XmlAssmblyName))
                                     throw new Exception("无效的xml文件,请在配置文件中配置所需的xml文件");

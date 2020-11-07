@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace DL.Core.ulitity.tools
@@ -57,6 +58,40 @@ namespace DL.Core.ulitity.tools
             }
             var uid = guid.ExpenSubstr(15);
             return result + uid;
+        }
+        /// <summary>
+        /// 获取当前时间是今年的第几周
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        private static int GetWeekOfYear(DateTime dt)
+        {
+           
+            GregorianCalendar gc = new GregorianCalendar();
+            int weekOfYear = gc.GetWeekOfYear(dt, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+            return weekOfYear;
+        }
+        /// <summary>
+        /// 获取当前时间的当前周的周范围
+        /// </summary>
+        /// <returns></returns>
+        public static string GetWeekRange(DateTime time)
+        {
+            GregorianCalendar gc = new GregorianCalendar();
+            var week = gc.GetDayOfWeek(time);
+            var nowTime = time;
+            DateTime starttime = DateTime.Now;
+            while (week != DayOfWeek.Monday)
+            {
+                starttime = nowTime.AddDays(-1);
+                week = starttime.DayOfWeek;
+                nowTime = starttime;
+            }
+            var endTime = starttime.AddDays(6);
+            var startStr = starttime.ToString("yyyy-MM-dd");
+            var endStr = endTime.ToString("yyyy-MM-dd");
+            return startStr + "-" + endStr;
+           
         }
         /// <summary>
         /// 返回Guid用于数据库操作，特定的时间代码可以提高检索效率
