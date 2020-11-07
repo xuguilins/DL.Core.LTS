@@ -26,12 +26,12 @@ namespace ConsoleApp2
     {
         static void Main(string[] args)
         {
-            ISqlServerDbContext context = new SqlServerDbContext();
-            context.CreateDbConnection("Data Source=.;Initial Catalog=TestEngine;Integrated Security=True");
-            context.AutoInitDataBaseTable();
 
-
-
+            var type = typeof(Program);
+            var methods = type.GetMethod("Spak");
+            var name = "徐贵林";
+            var instance = Activator.CreateInstance(type);
+            methods.Invoke(instance, new  object[]{ "胜多负少"});
 
             //var a = XmlConfigManager.Instance.GetSetting("appid");
             //var b = XmlConfigManager.Instance.GetHost("appurl");
@@ -61,7 +61,14 @@ namespace ConsoleApp2
 
             Console.ReadKey();
         }
+
+        public void Spak(string name)
+        {
+            Console.WriteLine($"说话{name}");
+        }
+
     }
+     
     public interface IUserService
     {
         void CreateUser(UserInfo userInfo);
