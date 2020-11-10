@@ -13,35 +13,43 @@ namespace DL.Core.ulitity.tools
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static int ToInt32(this string data) => Convert.ToInt32(data);
+        public static int ToInt32(this object data) => Convert.ToInt32(data);
 
         /// <summary>
         /// 字符串转INT
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static int ToInt16(this string data) => Convert.ToInt16(data);
+        public static int ToInt16(this object data) => Convert.ToInt16(data);
 
         /// <summary>
         /// 字符串转金额
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static decimal ToDecimal(this string data) => Convert.ToDecimal(data);
+        public static decimal ToDecimal(this object data) => Convert.ToDecimal(data);
 
         /// <summary>
         /// 字符串转单精度
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static float ToFloat(this string data) => Convert.ToSingle(data);
+        public static float ToFloat(this object data) => Convert.ToSingle(data);
 
         /// <summary>
         /// 字符串转双精度
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static double ToDuble(this string data) => Convert.ToDouble(data);
+        public static double ToDuble(this object data) => Convert.ToDouble(data);
+    
+        public static string ToFormattertime(this DateTime time,string formatter= "yyyy-MM-dd")=>time.ToString(formatter);
+        /// <summary>
+        /// 日期转换
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static DateTime ToDateTime(this string data) => Convert.ToDateTime(data);
         /// <summary>
         /// 字符串分割为成数组
         /// </summary>

@@ -21,7 +21,7 @@ using Microsoft.IdentityModel.Protocols;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Globalization;
-
+using DL.Core.ulitity.tools;
 namespace ConsoleApp2
 {
     class Program
@@ -29,11 +29,11 @@ namespace ConsoleApp2
         //  static List<RootBpmUser> list = new List<RootBpmUser>();
         static void Main(string[] args)
         {
+            int week = 54;
+           var a= StrHelper.GetWeekRangeByWeek(week);
+            Console.WriteLine(a);
 
-            var week = GetWeekOfYear(DateTime.Now);
-            Console.WriteLine(week);
 
-  
             Console.ReadKey();
         }
      
@@ -51,6 +51,27 @@ namespace ConsoleApp2
 
             return Tuple.Create<DateTime, DateTime>(targetDay, targetDay.AddDays(6));
         }
+        public static int GetYearWeekCount(int strYear)
+        {
+            System.DateTime fDt = DateTime.Parse(strYear.ToString() + "-01-01");
+            int k = Convert.ToInt32(fDt.DayOfWeek);//得到该年的第一天是周几 
+            if (k == 1)
+            {
+                int countDay = fDt.AddYears(1).AddDays(-1).DayOfYear;
+                int countWeek = countDay / 7 + 1;
+                return countWeek;
+
+            }
+            else
+            {
+                int countDay = fDt.AddYears(1).AddDays(-1).DayOfYear;
+                int countWeek = countDay / 7 + 2;
+                return countWeek;
+            }
+
+        } 
+   
+
         public static List<RootBpmUser> GetRecoveBpmUser(ISqlServerDbContext context, string parentId = null)
         {
             List<RootBpmUser> list = new List<RootBpmUser>();
