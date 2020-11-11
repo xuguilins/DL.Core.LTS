@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using DL.Core.ulitity.configer;
 
 namespace DL.Core.EfCore
 {
@@ -26,6 +27,7 @@ namespace DL.Core.EfCore
       
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            ConnectionString = ConfigManager.Build.ConnectionString.SqlDefault;
             optionsBuilder.UseSqlServer(ConnectionString);
         }
       
