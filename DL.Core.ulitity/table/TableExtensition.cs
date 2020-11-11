@@ -101,7 +101,10 @@ namespace DL.Core.ulitity.table
                     {
                         if (dt.Columns.Contains(pro.Name))
                         {
-                            pro.SetValue(model, row[pro.Name], null);
+                            if (pro.CanWrite && pro.CanRead)
+                            {
+                                pro.SetValue(model, row[pro.Name], null);
+                            }
                         }
                     }
                     list.Add(model);
@@ -137,8 +140,11 @@ namespace DL.Core.ulitity.table
                             var value = row[item.Name];
                             if (value != DBNull.Value)
                             {
-                                //赋值
-                                item.SetValue(model, value, null);
+                                if(item.CanRead && item.CanWrite)
+                                {
+                                    //赋值
+                                    item.SetValue(model, value, null);
+                                }
                             }
                         }
                     }

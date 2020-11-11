@@ -22,6 +22,8 @@ using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Globalization;
 using DL.Core.ulitity.tools;
+using System.Reflection;
+
 namespace ConsoleApp2
 {
     class Program
@@ -29,11 +31,33 @@ namespace ConsoleApp2
         //  static List<RootBpmUser> list = new List<RootBpmUser>();
         static void Main(string[] args)
         {
-            int week = 54;
-           var a= StrHelper.GetWeekRangeByWeek(week);
-            Console.WriteLine(a);
 
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Name");
+            dt.Columns.Add("Age",typeof(int));
+            dt.Columns.Add("Pass");
+            DataRow row = dt.NewRow();
+            row["Name"] = "语文";
+            row["Age"] = 19;
+            row["Pass"] = "1234";
+            dt.Rows.Add(row);
+            row = dt.NewRow();
+            row["Name"] = "语文2";
+            row["Age"] = 19;
+            row["Pass"] = "111";
+            dt.Rows.Add(row);
+            row = dt.NewRow();
+            row["Name"] = "语文8";
+            row["Age"] = 19;
+            row["Pass"] = "ddddd";
+            dt.Rows.Add(row);
+            var type = typeof(UserData);
+            var props = type.GetProperties();
+            foreach (PropertyInfo item in props)
+            {
+                
 
+            }
             Console.ReadKey();
         }
      
@@ -114,6 +138,13 @@ namespace ConsoleApp2
         }
         //  public static BpmUserInfo 
 
+    }
+    public class UserData
+    {
+        public string Name { get; set; }
+        public int Age { get; }
+
+        public string Pass { get; set; }
     }
     public class RootBpmUser
     {
