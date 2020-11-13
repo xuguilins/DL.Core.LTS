@@ -15,13 +15,13 @@ using System.Threading;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using DL.Core.ulitity.configer;
 
+
 namespace DL.Core.EfCore
 {
   
     public class DbContextBase<TDbContxt>:DbContext, IDbContext where TDbContxt:DbContext
     {
-       // private static readonly EntityConcurrentDictory dic = new EntityConcurrentDictory();
-      //  private IServiceProvider provider;
+   
         public virtual string ConnectionString { get; set; }
         public IUnitOfWork CurrentUnitOfWork { get; set; }
       
@@ -29,6 +29,7 @@ namespace DL.Core.EfCore
         {
             ConnectionString = ConfigManager.Build.ConnectionString.SqlDefault;
             optionsBuilder.UseSqlServer(ConnectionString);
+            Console.WriteLine($"进入DbContxtBase配置,数据库链接字符串：{ConnectionString}");
         }
       
         protected  override void OnModelCreating(ModelBuilder modelBuilder)

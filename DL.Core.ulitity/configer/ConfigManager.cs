@@ -82,6 +82,7 @@ namespace DL.Core.ulitity.configer
             swg.XmlAssmblyName = config["XmlAssmblyName"];
             swg.Authorization = Convert.ToBoolean(config["Authorization"]);
             swg.Issuer = config["Issuer"];
+            swg.Audience = config["Audience"];
             swg.JwtSecret = config["JwtSecret"];
             return swg;
         }

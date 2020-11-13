@@ -100,7 +100,7 @@ namespace DL.Core.Swagger
                                         ValidateIssuer = true,
                                         ValidIssuer = swg.Issuer,//发行人
                                         ValidateAudience = false,
-                                        ValidAudience = swg.Issuer,//接收人
+                                        ValidAudience = (string.IsNullOrWhiteSpace(swg.Audience)?swg.Issuer:swg.Audience),//接收人
                                         ValidateLifetime = true,
                                         ClockSkew = TimeSpan.Zero,
                                     };

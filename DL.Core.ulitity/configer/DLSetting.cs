@@ -99,6 +99,10 @@ namespace DL.Core.ulitity.configer
         /// 发行人
         /// </summary>
         public string Issuer { get; set; }
+        /// <summary>
+        /// 接受人
+        /// </summary>
+        public string Audience { get; set; }
     }
 
     /// <summary>
