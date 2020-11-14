@@ -26,6 +26,10 @@ namespace DL.Core.ulitity.finder
         /// 实体配置查找
         /// </summary>
         EnttiyConfigFinder = 4,
+        /// <summary>
+        /// 事件查找
+        /// </summary>
+        EventHandlerFinder = 5
 
     }
 }

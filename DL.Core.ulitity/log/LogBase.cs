@@ -15,16 +15,16 @@ namespace DL.Core.ulitity.log
         /// <param name="level">日志级别</param>
         /// <param name="message">日志内容</param>
         /// <param name="exception">异常消息</param>
-        protected abstract void Write(LogLevel level, object message, Exception exception = null);
+        protected abstract void Write(LogLevel level, object message, string logexit = "Log", Exception exception = null);
 
         /// <summary>
         /// 写入调试级别的日志
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception">异常信息</param>
-        public virtual void Debug(string message, Exception exception = null)
+        public virtual void Debug(string message, string logexit = "Log", Exception exception = null)
         {
-            Write(LogLevel.Debug, message, exception);
+            Write(LogLevel.Debug, message,logexit, exception);
         }
 
         /// <summary>
@@ -32,9 +32,9 @@ namespace DL.Core.ulitity.log
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception">异常信息</param>
-        public virtual void Error(string message, Exception exception = null)
+        public virtual void Error(string message, string logexit = "Log", Exception exception = null)
         {
-            Write(LogLevel.Error, message, exception);
+            Write(LogLevel.Error, message,logexit, exception);
         }
 
         /// <summary>
@@ -42,9 +42,9 @@ namespace DL.Core.ulitity.log
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception">异常信息</param>
-        public virtual void Info(string message, Exception exception = null)
+        public virtual void Info(string message, string logexit = "Log", Exception exception = null)
         {
-            Write(LogLevel.Info, message, exception);
+            Write(LogLevel.Info, message,logexit, exception);
         }
 
         /// <summary>
@@ -52,9 +52,9 @@ namespace DL.Core.ulitity.log
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception">异常信息</param>
-        public virtual void Success(string message, Exception exception = null)
+        public virtual void Success(string message, string logexit = "Log", Exception exception = null)
         {
-            Write(LogLevel.Success, message, exception);
+            Write(LogLevel.Success, message,logexit, exception);
         }
 
         /// <summary>
@@ -62,9 +62,9 @@ namespace DL.Core.ulitity.log
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception">异常信息</param>
-        public virtual void Warn(string message, Exception exception = null)
+        public virtual void Warn(string message, string logexit = "Log", Exception exception = null)
         {
-            Write(LogLevel.Warn, message, exception);
+            Write(LogLevel.Warn, message,logexit,exception);
         }
     }
 }

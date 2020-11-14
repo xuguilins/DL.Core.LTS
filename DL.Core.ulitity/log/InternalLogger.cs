@@ -22,7 +22,7 @@ namespace DL.Core.ulitity.log
         /// <param name="level">日志级别</param>
         /// <param name="message">内容</param>
         /// <param name="exception">异常消息</param>
-        protected override void Write(LogLevel level, object message, Exception exception = null)
+        protected override void Write(LogLevel level, object message,string logexit="Log",Exception exception = null)
         {
             lock (locker)
             {
@@ -32,7 +32,7 @@ namespace DL.Core.ulitity.log
                 {
                     FileExtensition.CreateDic(logDirPath);
                 }
-                string logFilePath = string.Format("{0}\\{1}.log", logDirPath, $"Log_{level.ToString()}_{ dateTimeNow.ToString("yyyy-MM-dd")}");
+                string logFilePath = string.Format("{0}\\{1}.log", logDirPath, $"{logexit}_{level.ToString()}_{ dateTimeNow.ToString("yyyy-MM-dd")}");
                 using (StreamWriter writer = new StreamWriter(logFilePath, true, Encoding.UTF8))
                 {
                     try
