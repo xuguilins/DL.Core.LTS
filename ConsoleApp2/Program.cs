@@ -28,27 +28,29 @@ using DL.Core.ulitity.EventBusHandler;
 
 namespace ConsoleApp2
 {
-    class Program
+    internal class Program
     {
-        static ILogger logger = LogManager.GetLogger();
+        private static ILogger logger = LogManager.GetLogger();
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             IServiceCollection services = new ServiceCollection();
             services.AddScoped<IEventBus, EventBus>();
             var provider = services.BuildServiceProvider();
             var service = provider.GetService<IEventBus>();
-          
+            service.RemoveEvent(typeof(UserEventService));
             service.Puslish(new UserEventData { UserName = "张三", EventStartTime = DateTime.Now, EventType = EventType.Create, Message = "我是张三,我创建了事件" });
 
             Console.ReadKey();
         }
     }
+
     public class UserEventData : EventData
     {
         public string UserName { get; set; }
         public string Message { get; set; }
     }
+
     public class UserEventService : IEventHandler<UserEventData>
     {
         public void Execute(UserEventData @event)
@@ -56,16 +58,12 @@ namespace ConsoleApp2
             Console.WriteLine($"执行事件--{@event.UserName}--{@event.Message},EventData:{@event.EventId}-{@event.EventStartTime}-{@event.EventType},Message:{@event.Message}");
         }
     }
-    public class TESTService: IEventHandler<UserEventData>
+
+    public class TESTService : IEventHandler<UserEventData>
     {
         public void Execute(UserEventData @event)
-    {
-        Console.WriteLine($"执行事件TESTService--{@event.UserName}--{@event.Message},EventData:{@event.EventId}-{@event.EventStartTime}-{@event.EventType},Message:{@event.Message}");
+        {
+            Console.WriteLine($"执行事件TESTService--{@event.UserName}--{@event.Message},EventData:{@event.EventId}-{@event.EventStartTime}-{@event.EventType},Message:{@event.Message}");
+        }
     }
 }
-
-
-
-
-}
- 
