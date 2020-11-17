@@ -9,6 +9,7 @@ namespace DL.Core.Mediator
 {
     /// <summary>
     /// 中介者接口
+    /// 依赖于MediatR
     /// </summary>
     public interface  IMeditaorBus
     {
