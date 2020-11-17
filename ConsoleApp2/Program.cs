@@ -1,30 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DL.Core.Ado.SqlServer;
-using DL.Core.ulitity.ui;
 using Microsoft.Extensions.DependencyInjection;
-using DL.Core.ulitity.finder;
-using DL.Core.EfCore.finderPacks;
-using DL.Core.EfCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using DL.Core.ns.EFCore;
-using DL.Core.EfCore.engine;
-using System.Runtime.CompilerServices;
-using DL.Core.ulitity.attubites;
-using DL.Core.ulitity.configer;
 using DL.Core.ulitity.log;
-using System.Configuration;
-using Microsoft.IdentityModel.Protocols;
-using Microsoft.Extensions.Configuration;
-using System.Data;
-using System.Globalization;
-using DL.Core.ulitity.tools;
-using System.Reflection;
-using System.Collections.Concurrent;
 using DL.Core.ulitity.EventBusHandler;
+using MediatR;
+using MediatR.Pipeline;
+using System.Reflection;
+using DL.Core.Mediator;
 
 namespace ConsoleApp2
 {
@@ -34,14 +15,22 @@ namespace ConsoleApp2
 
         private static void Main(string[] args)
         {
-            IServiceCollection services = new ServiceCollection();
-            services.AddScoped<IEventBus, EventBus>();
-            var provider = services.BuildServiceProvider();
-            var service = provider.GetService<IEventBus>();
-            service.RemoveEvent(typeof(UserEventService));
-            service.Puslish(new UserEventData { UserName = "张三", EventStartTime = DateTime.Now, EventType = EventType.Create, Message = "我是张三,我创建了事件" });
+         
+           IServiceCollection services = new ServiceCollection();
+            services.AddMeditorPack();
+            services.AddScoped<IBoardService, BoardService>();
+           var provider = services.BuildServiceProvider();
+           var service = provider.GetService<IBoardService>();
+            service.Speak();
+
+             //services.AddMediatR()
 
             Console.ReadKey();
+        }
+
+        private static UserEventData Test()
+        {
+            return new UserEventData();
         }
     }
 

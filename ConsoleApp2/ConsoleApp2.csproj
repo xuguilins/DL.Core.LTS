@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DL.Core.Ado.SqlServer\DL.Core.Ado.SqlServer.csproj" />
     <ProjectReference Include="..\DL.Core.EfCore\DL.Core.EfCore.csproj" />
+    <ProjectReference Include="..\DL.Core.Mediator\DL.Core.Mediator.csproj" />
   </ItemGroup>
 
 </Project>

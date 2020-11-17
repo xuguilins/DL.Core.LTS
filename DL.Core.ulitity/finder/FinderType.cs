@@ -29,7 +29,11 @@ namespace DL.Core.ulitity.finder
         /// <summary>
         /// 事件查找
         /// </summary>
-        EventHandlerFinder = 5
+        EventHandlerFinder = 5,
+        /// <summary>
+        /// 中介者查找
+        /// </summary>
+        MeditaorFinder = 6
 
     }
 }
