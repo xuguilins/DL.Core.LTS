@@ -137,44 +137,60 @@ namespace DL.Core.ulitity.tools
             return seekday;
         }
         /// <summary>
-        /// 根据指定周获取周范围
+        /// 根据指定周获取当前年份该周在什么范围
         /// </summary>
         /// <param name="week">周数</param>
         /// <returns></returns>
-        public static string GetWeekRangeByWeek(int week)
+        public static string GetWeekRangeByWeekOrYear(int week)
         {
-            //获取当前周
-            var nowWeek = GetWeekOfYear(DateTime.Now);
-            var nowWeekRange = GetWeekRange(DateTime.Now);
-            string result = string.Empty;
-              if (week > nowWeek)
-                {
-                   //计算相差多少周
-                  int seekweek = week - nowWeek;
-                  int seekday = seekweek * 7;
-                  DateTime startime = nowWeekRange.Split('~')[0].ToDateTime().AddDays(seekday);
-                  DateTime endtime = nowWeekRange.Split('~')[1].ToDateTime().AddDays(seekday);
-                  result = $"{startime.ToFormattertime()}~{endtime.ToFormattertime()}";
-                }
-                else
-                {
-                    int seekweek = week - nowWeek;
-                    int seekday = seekweek * 7;
-                    DateTime startime = nowWeekRange.Split('~')[0].ToDateTime().AddDays(seekday);
-                    DateTime endtime = nowWeekRange.Split('~')[1].ToDateTime().AddDays(seekday);
-                    if(startime.Year<DateTime.Now.Year)
-                    {
-                        int year = startime.Year;
-                        while (year<DateTime.Now.Year)
-                        {
-                            startime = startime.AddDays(1);
-                            year = startime.Year;
-                        }
-                    }
-                    result = $"{startime.ToFormattertime()}~{endtime.ToFormattertime()}";
-                } 
-            return result;
+            //开始周
+            int year = DateTime.Now.Year;
+            DateTime nowTime = DateTime.Now;
+            //第一周的开始日期
+            var firsWeekStartttime = $"{year}-01-01".ToDateTime();
+            //第一周的结束日期
+            DateTime firsWeekEndtime = DateTime.Now;
+            var caculteTime = firsWeekStartttime;
+            while(caculteTime.DayOfWeek!= DayOfWeek.Sunday)
+            {
+                caculteTime = caculteTime.AddDays(1);
+                firsWeekEndtime = caculteTime;
+            }
+            if (week-1==0)
+                return $"{firsWeekStartttime.ToFormattertime()}~{firsWeekEndtime.ToFormattertime()}";
+            var seekDay = (week - 1) * 7;
+            var endtime = firsWeekEndtime.AddDays(seekDay);
+            var startime = endtime.AddDays(-6);
+            return $"{startime.ToFormattertime()}~{endtime.ToFormattertime()}";
         }
+        /// <summary>
+        /// 根据指定年份和周数获取周在什么范围
+        /// </summary>
+        /// <param name="year">年份</param>
+        /// <param name="week">周</param>
+        /// <returns></returns>
+        public static string GetWeekRangeByWeekOrYear(int year,int week)
+        {
+            
+            DateTime nowTime = DateTime.Now;
+            //第一周的开始日期
+            var firsWeekStartttime = $"{year}-01-01".ToDateTime();
+            //第一周的结束日期
+            DateTime firsWeekEndtime = DateTime.Now;
+            var caculteTime = firsWeekStartttime;
+            while (caculteTime.DayOfWeek != DayOfWeek.Sunday)
+            {
+                caculteTime = caculteTime.AddDays(1);
+                firsWeekEndtime = caculteTime;
+            }
+            if (week - 1 == 0)
+                return $"{firsWeekStartttime.ToFormattertime()}~{firsWeekEndtime.ToFormattertime()}";
+            var seekDay = (week - 1) * 7;
+            var endtime = firsWeekEndtime.AddDays(seekDay);
+            var startime = endtime.AddDays(-6);
+            return $"{startime.ToFormattertime()}~{endtime.ToFormattertime()}";
+        }
+
         /// <summary>
         /// 返回Guid用于数据库操作，特定的时间代码可以提高检索效率
         /// </summary>
