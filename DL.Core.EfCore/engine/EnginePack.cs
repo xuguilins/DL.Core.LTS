@@ -69,5 +69,18 @@ namespace DL.Core.EfCore.engine
             }
         }
      
+        /// <summary>
+        /// 加载指定模块
+        /// </summary>
+        /// <typeparam name="TPack"></typeparam>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection UserPack<TPack> (this IServiceCollection services) where TPack:PackModule
+        {
+            var type = typeof(TPack);
+            var instance = Activator.CreateInstance(type) as PackModule;
+            var serviceList = instance.AddService(services);
+            return serviceList;
+        }
     }
 }

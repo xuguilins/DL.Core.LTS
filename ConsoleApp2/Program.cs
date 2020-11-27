@@ -6,53 +6,99 @@ using MediatR;
 using MediatR.Pipeline;
 using System.Reflection;
 using DL.Core.Mediator;
+using System.IO;
+using System.Text;
+using System.Collections.Generic;
+using DL.Core.ulitity.tools;
+using System.Linq;
+using DL.Core.EfCore.engine;
+using DL.Core.EfCore.packBase;
+using DL.Core.ulitity.attubites;
 
 namespace ConsoleApp2
 {
     internal class Program
     {
         private static ILogger logger = LogManager.GetLogger();
+         static Dictionary<string, string> dic = new Dictionary<string, string>
+            {
+                {"个","-1" },
+                {"十","0" },
+                {"百","00" },
+                {"千","000" },
+                {"万","0000" },
+                {"十万","00000" },
+                {"百万","000000" },
+                {"千万","0000000" },
+                {"亿","00000000" }
+            };
+        static Dictionary<string, int> pars = new Dictionary<string, int>
+        {
+            {"一",1 },
+            {"二",2 },
+            {"三",3 },
+            {"四",4 },
+            {"五",5 },
+            {"六",6 },
+            {"七",7 },
+            {"八",8 },
+            {"九",9 }
+
+        };
 
         private static void Main(string[] args)
         {
-         
-           IServiceCollection services = new ServiceCollection();
-            services.AddMeditorPack();
-            services.AddScoped<IBoardService, BoardService>();
-           var provider = services.BuildServiceProvider();
-           var service = provider.GetService<IBoardService>();
-            service.Speak();
 
-             //services.AddMediatR()
-
+            //IServiceCollection services = new ServiceCollection();
+          //  services.UserPack<DependencyPack>();
             Console.ReadKey();
         }
-
-        private static UserEventData Test()
+        private static void SetValue(string func,Func<string,string> callback)
         {
-            return new UserEventData();
+            callback(func);
         }
-    }
-
-    public class UserEventData : EventData
-    {
-        public string UserName { get; set; }
-        public string Message { get; set; }
-    }
-
-    public class UserEventService : IEventHandler<UserEventData>
-    {
-        public void Execute(UserEventData @event)
+        private static void ToNumberMoney(string chineseMoney)
         {
-            Console.WriteLine($"执行事件--{@event.UserName}--{@event.Message},EventData:{@event.EventId}-{@event.EventStartTime}-{@event.EventType},Message:{@event.Message}");
+            List<string> list = new List<string>();
+            string res = string.Empty;
+            string wres = string.Empty;
+            foreach (char item in chineseMoney)
+            {
+                string numberStr = item.ToString();
+                if(pars.ContainsKey(numberStr))
+                {
+                    res += pars[numberStr].ToString();
+                } else if (dic.ContainsKey(numberStr))
+                {
+                    if(numberStr == "万")
+                    {
+                        wres = dic[numberStr];
+                    } else
+                    {
+                        res += dic[numberStr];
+                        list.Add(res);
+                        res = string.Empty;
+                    }  
+                } else
+                {
+                    list.Add(res);
+                }
+               
+            }
+            int sum=list.Select(x => x.ToInt32()).Sum();
+            Console.WriteLine(sum);
         }
-    }
 
-    public class TESTService : IEventHandler<UserEventData>
+    }
+    public interface IUserSerice
     {
-        public void Execute(UserEventData @event)
-        {
-            Console.WriteLine($"执行事件TESTService--{@event.UserName}--{@event.Message},EventData:{@event.EventId}-{@event.EventStartTime}-{@event.EventType},Message:{@event.Message}");
-        }
+
+    }
+    [DependencyAttbuite(ServiceLifetime.Scoped)]
+    public class UserService : IUserSerice
+    {
+
     }
 }
+
+   
