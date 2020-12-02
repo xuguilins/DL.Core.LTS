@@ -14,6 +14,7 @@ using System.Linq;
 using DL.Core.EfCore.engine;
 using DL.Core.EfCore.packBase;
 using DL.Core.ulitity.attubites;
+using System.ComponentModel;
 
 namespace ConsoleApp2
 {
@@ -98,6 +99,11 @@ namespace ConsoleApp2
     public class UserService : IUserSerice
     {
 
+    }
+    public enum UserType
+    {
+        [Description()]
+        nane = 1
     }
 }
 

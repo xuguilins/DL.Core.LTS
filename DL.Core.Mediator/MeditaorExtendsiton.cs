@@ -12,7 +12,7 @@ namespace DL.Core.Mediator
         /// 添加中介者Pack
         /// </summary>
         /// <returns></returns>
-        public static IServiceCollection AddMeditorPack(this IServiceCollection services)
+        public static IServiceCollection UseMeditorPack(this IServiceCollection services)
         {
             IMeditaorFinder finder = new MeditaorFinder();
             var types = finder.FinderAll().ToArray();
