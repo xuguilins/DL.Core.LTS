@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebAppli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp3", "ConsoleApp3\ConsoleApp3.csproj", "{4834130D-21F2-4C99-8E65-12F5058E47D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DL.Core.Mediator", "DL.Core.Mediator\DL.Core.Mediator.csproj", "{82FFB8F0-A3A8-42BE-AD3E-A40147A622CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.Mediator", "DL.Core.Mediator\DL.Core.Mediator.csproj", "{82FFB8F0-A3A8-42BE-AD3E-A40147A622CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DL.Core.Notify", "DL.Core.Notify\DL.Core.Notify.csproj", "{FDE62165-0CA4-4C37-8BD0-D16505BCCBC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{82FFB8F0-A3A8-42BE-AD3E-A40147A622CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82FFB8F0-A3A8-42BE-AD3E-A40147A622CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82FFB8F0-A3A8-42BE-AD3E-A40147A622CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDE62165-0CA4-4C37-8BD0-D16505BCCBC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDE62165-0CA4-4C37-8BD0-D16505BCCBC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDE62165-0CA4-4C37-8BD0-D16505BCCBC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDE62165-0CA4-4C37-8BD0-D16505BCCBC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

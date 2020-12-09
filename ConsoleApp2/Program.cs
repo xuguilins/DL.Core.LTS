@@ -50,8 +50,10 @@ namespace ConsoleApp2
         private static void Main(string[] args)
         {
 
-            //IServiceCollection services = new ServiceCollection();
-          //  services.UserPack<DependencyPack>();
+            for (int i = 0; i < 1000; i++)
+            {
+                Console.WriteLine(StrHelper.GetDateGuid());
+            }
             Console.ReadKey();
         }
         private static void SetValue(string func,Func<string,string> callback)
