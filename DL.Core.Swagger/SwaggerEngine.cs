@@ -55,7 +55,7 @@ namespace DL.Core.Swagger
                                     {
                                         Description = "请求头中需要添加Jwt授权Token：Bearer Token",
                                         Name = "Authorization",
-                                        In = ParameterLocation.Header,
+                                        In = ParameterLocation.Header,                                      
                                         Type = SecuritySchemeType.ApiKey
                                     });
                                     options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -106,6 +106,8 @@ namespace DL.Core.Swagger
                                     };
                                 });
                                 #endregion
+
+                                
 
                             }
 

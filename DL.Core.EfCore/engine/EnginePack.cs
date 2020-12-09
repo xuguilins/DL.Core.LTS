@@ -43,6 +43,7 @@ namespace DL.Core.EfCore.engine
             sb.Append($"****框架初始化完毕**** [{DateTime.Now}]\r\n ");
             sw.Stop();
             sb.Append($"****以上操作耗时**** [{sw.ElapsedMilliseconds}ms]\r\n ");
+            logger.Info(sb.ToString());
             return services;
         } 
         private static void AutoMigration(Type dbContext)
