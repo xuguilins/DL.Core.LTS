@@ -33,5 +33,9 @@ namespace DL.Core.Notify.MailEnttiys
         /// 邮件f服务器授权密码
         /// </summary>
         public string Secret { get; set; }
+        /// <summary>
+        /// 授权人
+        /// </summary>
+        public string ServerName { get; set; }
     }
 }
