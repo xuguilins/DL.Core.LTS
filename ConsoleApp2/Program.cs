@@ -15,98 +15,100 @@ using DL.Core.EfCore.engine;
 using DL.Core.EfCore.packBase;
 using DL.Core.ulitity.attubites;
 using System.ComponentModel;
+using System.Threading.Tasks;
+using DL.Core.ulitity.ui;
+using DL.Core.ulitity.CommandBuilder;
 
 namespace ConsoleApp2
 {
     internal class Program
     {
-        private static ILogger logger = LogManager.GetLogger();
-         static Dictionary<string, string> dic = new Dictionary<string, string>
-            {
-                {"个","-1" },
-                {"十","0" },
-                {"百","00" },
-                {"千","000" },
-                {"万","0000" },
-                {"十万","00000" },
-                {"百万","000000" },
-                {"千万","0000000" },
-                {"亿","00000000" }
-            };
-        static Dictionary<string, int> pars = new Dictionary<string, int>
-        {
-            {"一",1 },
-            {"二",2 },
-            {"三",3 },
-            {"四",4 },
-            {"五",5 },
-            {"六",6 },
-            {"七",7 },
-            {"八",8 },
-            {"九",9 }
-
-        };
+    
 
         private static void Main(string[] args)
         {
-
-            for (int i = 0; i < 1000; i++)
+           // .ex
+          // /./ ICommandExecutetor service = new CommanndExecutetor();
+           // service.Execute(new UserRegistCommand("张三","我是同步的无参命令执行者"));
+            object name = new
             {
-                Console.WriteLine(StrHelper.GetDateGuid());
-            }
+                userName = "参数A",
+                passsWord="使得房价来说手动阀沙"
+            };
+            CommandRunner.Instance.CommandExecutetor.Execute(new UserParmasCommand("李四", "我是同步的有参数命令执行者"), name);
+            Console.WriteLine("下面的是异步方法");
+            //service.ExecuteAsync(new UserRgisetAsyncCommand("老外", "我是异步的无参数命令执行者"));
+            Console.WriteLine("异步命令A执行完毕");
+            //service.ExecuteAsync(new UserParmasAsycnCommand("昂佩里格", "我是异步有参数的命令执行者"), name);
+            Console.WriteLine("异步命令B执行完毕");
+
             Console.ReadKey();
+        }   
+    }
+    public class UserRegistCommand : ICommand<ReturnResult>
+    {
+        private string _userName;
+        private string _userMessage;
+        public UserRegistCommand(string username,string message) {
+            _userMessage = message;
+            _userName = username;
         }
-        private static void SetValue(string func,Func<string,string> callback)
+        public ReturnResult Execute(object data = null)
         {
-            callback(func);
+            Console.WriteLine($"{_userName}说：{_userMessage}");
+            return null;
         }
-        private static void ToNumberMoney(string chineseMoney)
+    }
+    public class UserParmasCommand : ICommand<ReturnResult>
+    {
+        private string _userName;
+        private string _userMessage;
+        public UserParmasCommand(string username, string message)
         {
-            List<string> list = new List<string>();
-            string res = string.Empty;
-            string wres = string.Empty;
-            foreach (char item in chineseMoney)
-            {
-                string numberStr = item.ToString();
-                if(pars.ContainsKey(numberStr))
-                {
-                    res += pars[numberStr].ToString();
-                } else if (dic.ContainsKey(numberStr))
-                {
-                    if(numberStr == "万")
-                    {
-                        wres = dic[numberStr];
-                    } else
-                    {
-                        res += dic[numberStr];
-                        list.Add(res);
-                        res = string.Empty;
-                    }  
-                } else
-                {
-                    list.Add(res);
-                }
-               
-            }
-            int sum=list.Select(x => x.ToInt32()).Sum();
-            Console.WriteLine(sum);
+            _userMessage = message;
+            _userName = username;
         }
-
+        public ReturnResult Execute(object data = null)
+        {
+            Console.WriteLine($"{_userName}说：{_userMessage},我的参数为：{data.ToJson()}");
+            return null;
+        }
     }
-    public interface IUserSerice
+    public class UserParmasAsycnCommand : ICommand<ReturnResult>
     {
+        private string _userName;
+        private string _userMessage;
+        public UserParmasAsycnCommand(string username, string message)
+        {
+            _userMessage = message;
+            _userName = username;
+        }
+        public ReturnResult Execute(object data = null)
+        {
+            Console.WriteLine($"{_userName}说：{_userMessage},我的参数为：{data.ToJson()}");
+            return null;
+        }
+    }
 
-    }
-    [DependencyAttbuite(ServiceLifetime.Scoped)]
-    public class UserService : IUserSerice
+    public class UserRgisetAsyncCommand:ICommand<ReturnResult>
     {
-
+        private string _userName;
+        private string _userMessage;
+        public UserRgisetAsyncCommand(string username, string message)
+        {
+            _userMessage = message;
+            _userName = username;
+        }
+        public ReturnResult Execute(object data = null)
+        {
+            Console.WriteLine($"{_userName}说：{_userMessage},我没有参数");
+            return new ReturnResult(ReturnResultCode.Success,null,"奥里给");
+        }
     }
-    public enum UserType
-    {
-        [Description()]
-        nane = 1
-    }
+   
+ 
+  
+  
 }
 
    

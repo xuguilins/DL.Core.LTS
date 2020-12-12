@@ -48,10 +48,11 @@ namespace DL.Core.Notify
                     client.Send(message);
                     client.Disconnect(true);
                 };
-                return new { 
-                   Code = 0,
-                   Message = "邮件发送成功"
-                }
+                return new
+                {
+                    Code = 0,
+                    Message = "邮件发送成功"
+                };
             }
             catch (Exception ex)
             {
