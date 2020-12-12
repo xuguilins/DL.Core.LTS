@@ -25,15 +25,13 @@ namespace DL.Core.ulitity.EventBusHandler
             var type = eventData.GetType();
             if (type != null)
             {
-                
-                //获取当前事件继承的接口以及参数
                 var list = HandlerData[type];
                 foreach (var item in list)
                 {
                     var method = item.GetMethod("Execute");
                     if (method != null)
                     {
-                        logger.Info($"执行事件：{item.Name},参数:{eventData.ToJson()}", "Event");
+                        logger.Info($"执行事件：{item.Name},参数:{eventData?.ToJson()}", "Event");
                         var instance = Activator.CreateInstance(item);
                         method.Invoke(instance, new object[] { eventData });
                         logger.Info($"成功执行了一个事件---{item.Name}", "Event");
@@ -62,7 +60,7 @@ namespace DL.Core.ulitity.EventBusHandler
                         var method = item.GetMethod("Execute");
                         if (method != null)
                         {
-                            logger.Info($"执行事件：{item.Name},参数:{@event.ToJson()}", "Event");
+                            logger.Info($"执行事件：{item.Name},参数:{@event?.ToJson()}", "Event");
                             var instance = Activator.CreateInstance(item);
                             method.Invoke(instance, new object[] { @event });
                             logger.Info($"成功执行了一个事件---{item.Name}", "Event");
