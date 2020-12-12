@@ -27,23 +27,21 @@ namespace ConsoleApp2
 
         private static void Main(string[] args)
         {
-           // .ex
-          // /./ ICommandExecutetor service = new CommanndExecutetor();
-           // service.Execute(new UserRegistCommand("张三","我是同步的无参命令执行者"));
-            object name = new
-            {
-                userName = "参数A",
-                passsWord="使得房价来说手动阀沙"
-            };
-            CommandRunner.Instance.CommandExecutetor.Execute(new UserParmasCommand("李四", "我是同步的有参数命令执行者"), name);
-            Console.WriteLine("下面的是异步方法");
-            //service.ExecuteAsync(new UserRgisetAsyncCommand("老外", "我是异步的无参数命令执行者"));
-            Console.WriteLine("异步命令A执行完毕");
-            //service.ExecuteAsync(new UserParmasAsycnCommand("昂佩里格", "我是异步有参数的命令执行者"), name);
-            Console.WriteLine("异步命令B执行完毕");
+            IEventBus bus = new EventBus();
+            var data = new EventData();
+            bus.Publish(new EventData { EventStartTime =DateTime.Now, EventType = EventType.EngineStart });
+           
 
             Console.ReadKey();
         }   
+    }
+
+    public class UserEventHandler : IEventHandler<EventData>
+    {
+        public void Execute(EventData @event)
+        {
+            Console.WriteLine($"出发事件：{@event.ToJson()}");
+        }
     }
     public class UserRegistCommand : ICommand<ReturnResult>
     {

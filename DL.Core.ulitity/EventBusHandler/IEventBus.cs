@@ -7,14 +7,21 @@ namespace DL.Core.ulitity.EventBusHandler
     public interface IEventBus
     {
         /// <summary>
-        /// 事件发布
+        /// 发布事件
         /// </summary>
-        /// <typeparam name="TEvent">事件</typeparam>
+        /// <typeparam name="TEvent"></typeparam>
+        /// <param name="event">事件类型</param>
+        /// <param name="eventData">事件参数</param>
+        void Publish<TEvent>(TEvent @event, object eventData) where TEvent : IEventHandler;
+        /// <summary>
+        /// 发布事件
+        /// </summary>
+        /// <typeparam name="TEvent"></typeparam>
         /// <param name="event">事件参数</param>
-        void Puslish<TEvent>(TEvent @event) where TEvent : EventData;
+        void Publish<TEvent>(TEvent @event) where TEvent : EventData;
 
         /// <summary>
-        /// 移除事件
+        /// 移除指定参数的所有事件
         /// </summary>
         /// <typeparam name="TEvent"></typeparam>
         /// <param name="event"></param>

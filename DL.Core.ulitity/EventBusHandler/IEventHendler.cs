@@ -4,8 +4,8 @@ using System.Text;
 
 namespace DL.Core.ulitity.EventBusHandler
 {
-    public interface IEventHendler { }
-    public interface IEventHandler<TEvent> : IEventHendler where TEvent : EventData
+    public interface IEventHandler { }
+    public interface IEventHandler<TEvent> : IEventHandler where TEvent : EventData
     {
         /// <summary>
         /// 执行事件

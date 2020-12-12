@@ -21,7 +21,7 @@ namespace DL.Core.ulitity.EventBusHandler
             foreach (var type in types)
             {
 
-                if (typeof(IEventHendler).IsAssignableFrom(type))
+                if (typeof(IEventHandler).IsAssignableFrom(type))
                 {
                     //获取当前类实现的泛型接口
                     var genter = type.GetInterface("IEventHandler`1");

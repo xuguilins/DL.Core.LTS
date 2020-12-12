@@ -54,7 +54,16 @@ namespace DL.Core.ulitity.EventBusHandler
         /// <summary>
         /// 过期事件
         /// </summary>
-        ExpireEvent = 10
+        ExpireEvent = 10,
+        /// <summary>
+        /// 同意事件
+        /// </summary>
+        AgreeEvent = 11,
+        /// <summary>
+        /// 取消事件 
+        /// </summary>
+        CancleEvent = 12
+
     }
     public class EventData
     {

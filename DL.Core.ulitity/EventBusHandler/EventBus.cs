@@ -4,6 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace DL.Core.ulitity.EventBusHandler
@@ -19,20 +20,22 @@ namespace DL.Core.ulitity.EventBusHandler
             HandlerData = service.GetEventHandler();
         }
 
-        public void Puslish<TEvent>(TEvent @event) where TEvent : EventData
+        public void Publish<TEvent>(TEvent @event,object eventData) where TEvent : IEventHandler
         {
-            var type = @event.GetType();
+            var type = eventData.GetType();
             if (type != null)
             {
+                
+                //获取当前事件继承的接口以及参数
                 var list = HandlerData[type];
                 foreach (var item in list)
                 {
                     var method = item.GetMethod("Execute");
                     if (method != null)
                     {
-                        logger.Info($"执行事件：{item.Name},参数:{@event.ToJson()}", "Event");
+                        logger.Info($"执行事件：{item.Name},参数:{eventData.ToJson()}", "Event");
                         var instance = Activator.CreateInstance(item);
-                        method.Invoke(instance, new object[] { @event });
+                        method.Invoke(instance, new object[] { eventData });
                         logger.Info($"成功执行了一个事件---{item.Name}", "Event");
                     }
                 }
@@ -40,7 +43,38 @@ namespace DL.Core.ulitity.EventBusHandler
         }
 
         /// <summary>
-        /// 移除指定的key的所有事件
+        /// 发布指定的事件
+        /// </summary>
+        /// <typeparam name="TEvent"></typeparam>
+        /// <param name="event"></param>
+        public void Publish<TEvent>(TEvent @event) where TEvent : EventData
+        {
+            //获取当前事件继承的接口
+            var type = @event.GetType();//IEventHandler`1
+            if (HandlerData.ContainsKey(type))
+            {
+                var handlers = HandlerData[type];
+                if (handlers != null && handlers.Count > 0)
+                {
+
+                    foreach (var item in handlers)
+                    {
+                        var method = item.GetMethod("Execute");
+                        if (method != null)
+                        {
+                            logger.Info($"执行事件：{item.Name},参数:{@event.ToJson()}", "Event");
+                            var instance = Activator.CreateInstance(item);
+                            method.Invoke(instance, new object[] { @event });
+                            logger.Info($"成功执行了一个事件---{item.Name}", "Event");
+                        }
+                    }
+
+                }
+            }
+        }
+
+        /// <summary>
+        /// 移除指定的参数的所有事件
         /// </summary>
         /// <typeparam name="TEvent"></typeparam>
         /// <param name="event"></param>
