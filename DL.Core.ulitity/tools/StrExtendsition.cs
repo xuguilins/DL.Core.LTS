@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -43,8 +44,8 @@ namespace DL.Core.ulitity.tools
         /// <param name="data"></param>
         /// <returns></returns>
         public static double ToDuble(this object data) => Convert.ToDouble(data);
-    
-        public static string ToFormattertime(this DateTime time,string formatter= "yyyy-MM-dd")=>time.ToString(formatter);
+
+        public static string ToFormattertime(this DateTime time, string formatter = "yyyy-MM-dd") => time.ToString(formatter);
         /// <summary>
         /// 日期转换
         /// </summary>
@@ -119,7 +120,7 @@ namespace DL.Core.ulitity.tools
             }
             return model;
         }
-  
+
         /// <summary>
         /// 检查字符串是否为空
         /// </summary>
@@ -231,7 +232,7 @@ namespace DL.Core.ulitity.tools
         {
             MemoryStream ms = new MemoryStream(bytes);
             return ms;
-        } 
+        }
         /// <summary>
         /// 小写金额转大写
         /// </summary>
@@ -244,6 +245,93 @@ namespace DL.Core.ulitity.tools
             var r = Regex.Replace(d, ".", m => "负元空零壹贰叁肆伍陆柒捌玖空空空空空空空分角拾佰仟万亿兆京垓秭穰"[m.Value[0] - '-'].ToString());
             return r + "整";
         }
+        /// <summary>
+        /// 对象克隆
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static T Clone<T>(this T data) where T : class, new()
+        {
+            var model = new T();
+            var newModelProps = model.GetType().GetProperties().ToList();
+            var dataProps = data.GetType().GetProperties();
+            foreach (var prop in dataProps)
+            {
+                var newModel = newModelProps.FirstOrDefault(m => m.Name.Equals(prop.Name));
+                if (newModel != null)
+                {
+                    var value = prop.GetValue(data, null);
+                    if (prop.CanRead && prop.CanWrite)
+                    {
+                        newModel.SetValue(model, value);
+                    }
 
+                }
+            }
+            return model;
+        }
+
+        /// <summary>
+        /// 把对象类型转换为指定类型
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="conversionType"></param>
+        /// <returns></returns>
+        public static object CastTo(this object value, Type conversionType)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+            if (conversionType.IsEnum)
+            {
+                return Enum.Parse(conversionType, value.ToString());
+            }
+            if (conversionType == typeof(Guid))
+            {
+                return Guid.Parse(value.ToString());
+            }
+            return Convert.ChangeType(value, conversionType);
+        }
+
+        /// <summary>
+        /// 把对象类型转化为指定类型
+        /// </summary>
+        /// <typeparam name="T"> 动态类型 </typeparam>
+        /// <param name="value"> 要转化的源对象 </param>
+        /// <returns> 转化后的指定类型的对象，转化失败引发异常。 </returns>
+        public static T CastTo<T>(this object value)
+        {
+            if (value == null && default(T) == null)
+            {
+                return default(T);
+            }
+            if (value.GetType() == typeof(T))
+            {
+                return (T)value;
+            }
+            object result = CastTo(value, typeof(T));
+            return (T)result;
+        }
+
+        /// <summary>
+        /// 把对象类型转化为指定类型，转化失败时返回指定的默认值
+        /// </summary>
+        /// <typeparam name="T"> 动态类型 </typeparam>
+        /// <param name="value"> 要转化的源对象 </param>
+        /// <param name="defaultValue"> 转化失败返回的指定默认值 </param>
+        /// <returns> 转化后的指定类型对象，转化失败时返回指定的默认值 </returns>
+        public static T CastTo<T>(this object value, T defaultValue)
+        {
+            try
+            {
+                return CastTo<T>(value);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
     }
 }

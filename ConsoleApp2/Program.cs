@@ -18,6 +18,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using DL.Core.ulitity.ui;
 using DL.Core.ulitity.CommandBuilder;
+using System.Data;
 
 namespace ConsoleApp2
 {
@@ -27,11 +28,14 @@ namespace ConsoleApp2
 
         private static void Main(string[] args)
         {
-            IEventBus bus = new EventBus();
-            var data = new EventData();
-            bus.Publish(new EventData { EventStartTime =DateTime.Now, EventType = EventType.EngineStart });
-           
+            var data = new EventData
+            {
+                EventStartTime = DateTime.Now,
+                EventType = EventType.AgreeEvent     
+            };
 
+            string a = "12";
+            var b = Convert.ChangeType(a, typeof(int));
             Console.ReadKey();
         }   
     }
