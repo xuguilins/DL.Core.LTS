@@ -82,7 +82,7 @@ namespace DL.Core.ulitity.tools
         /// <param name="data"></param>
         /// <returns></returns>
         public static string ExpenSubstr(this string data, int count = 1) => data.Length > count ? data.Substring(0, data.Length - count) : "移除失败,移除字符个数大于当前字符串长度";
-        // <summary>
+        /// <summary>
         /// 仅支持对象T转字典,不允许对象嵌套
         /// </summary>
         /// <param name="value"></param>
