@@ -19,98 +19,46 @@ using System.Threading.Tasks;
 using DL.Core.ulitity.ui;
 using DL.Core.ulitity.CommandBuilder;
 using System.Data;
-
+using Quartz.Core;
+using Quartz;
+using Quartz.Util;
+using Quartz.Impl;
 namespace ConsoleApp2
 {
     internal class Program
     {
-    
+
 
         private static void Main(string[] args)
         {
-            var data = new EventData
-            {
-                EventStartTime = DateTime.Now,
-                EventType = EventType.AgreeEvent     
-            };
-
-            string a = "12";
-            var b = Convert.ChangeType(a, typeof(int));
+            //调度器
+            IScheduler scheduler;
+            //调度器工厂
+            ISchedulerFactory factory;
+            //创建一个调度器
+            Console.WriteLine($"当前时间=--{DateTime.Now}");
+            factory = new StdSchedulerFactory();
+            scheduler = factory.GetScheduler().Result;
+            IJobDetail job = JobBuilder.Create<UserNotifyTask>().WithIdentity("job1", "group1").Build();
+            //job.JobDataMap.Add()
+            ITrigger trigger = TriggerBuilder.Create()
+              .WithIdentity("trigger1", "group1")
+              .StartAt(DateTime.Now.AddSeconds(5))
+              .Build();
+            scheduler.ScheduleJob(job, trigger);
+            scheduler.Start();
             Console.ReadKey();
-        }   
+        }
     }
-
-    public class UserEventHandler : IEventHandler<EventData>
+    public class UserNotifyTask : IJob
     {
-        public void Execute(EventData @event)
+        public Task Execute(IJobExecutionContext context)
         {
-            Console.WriteLine($"出发事件：{@event.ToJson()}");
+            Console.WriteLine("我是用户提醒"+DateTime.Now);
+            return Task.CompletedTask;
+           
         }
     }
-    public class UserRegistCommand : ICommand<ReturnResult>
-    {
-        private string _userName;
-        private string _userMessage;
-        public UserRegistCommand(string username,string message) {
-            _userMessage = message;
-            _userName = username;
-        }
-        public ReturnResult Execute(object data = null)
-        {
-            Console.WriteLine($"{_userName}说：{_userMessage}");
-            return null;
-        }
-    }
-    public class UserParmasCommand : ICommand<ReturnResult>
-    {
-        private string _userName;
-        private string _userMessage;
-        public UserParmasCommand(string username, string message)
-        {
-            _userMessage = message;
-            _userName = username;
-        }
-        public ReturnResult Execute(object data = null)
-        {
-            Console.WriteLine($"{_userName}说：{_userMessage},我的参数为：{data.ToJson()}");
-            return null;
-        }
-    }
-    public class UserParmasAsycnCommand : ICommand<ReturnResult>
-    {
-        private string _userName;
-        private string _userMessage;
-        public UserParmasAsycnCommand(string username, string message)
-        {
-            _userMessage = message;
-            _userName = username;
-        }
-        public ReturnResult Execute(object data = null)
-        {
-            Console.WriteLine($"{_userName}说：{_userMessage},我的参数为：{data.ToJson()}");
-            return null;
-        }
-    }
-
-    public class UserRgisetAsyncCommand:ICommand<ReturnResult>
-    {
-        private string _userName;
-        private string _userMessage;
-        public UserRgisetAsyncCommand(string username, string message)
-        {
-            _userMessage = message;
-            _userName = username;
-        }
-        public ReturnResult Execute(object data = null)
-        {
-            Console.WriteLine($"{_userName}说：{_userMessage},我没有参数");
-            return new ReturnResult(ReturnResultCode.Success,null,"奥里给");
-        }
-    }
-   
- 
-  
-  
 }
 
    
