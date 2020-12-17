@@ -19,6 +19,7 @@ namespace DL.Core.ulitity.web
         {
             httpclient.DefaultRequestHeaders.Add("Accept", "application/json");
             HttpClient = httpclient;
+           
         }
 
         /// <summary>
