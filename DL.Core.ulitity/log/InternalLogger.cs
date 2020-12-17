@@ -27,7 +27,8 @@ namespace DL.Core.ulitity.log
             lock (locker)
             {
                 DateTime dateTimeNow = DateTime.Now;
-                string logDirPath = Directory.GetCurrentDirectory()+"\\log";
+                var path = AppDomain.CurrentDomain.BaseDirectory;
+                string logDirPath = path+"\\log";
                 if (!logDirPath.CheckDirctoryIsExite())
                 {
                     FileExtensition.CreateDic(logDirPath);

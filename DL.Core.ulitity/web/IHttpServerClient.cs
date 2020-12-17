@@ -15,7 +15,11 @@ namespace DL.Core.ulitity.web
         /// </summary>
         /// <param name="token"></param>
         void SetBearerToken(string token);
-
+        /// <summary>
+        /// 设置请求host
+        /// </summary>
+        /// <param name="address"></param>
+        void SetAddressUrl(string address = null);
         /// <summary>
         /// Get请求网络Api接口(Query)
         /// </summary>

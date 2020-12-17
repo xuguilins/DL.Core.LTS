@@ -30,6 +30,13 @@ namespace DL.Core.ulitity.web
             HttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         }
 
+        public void SetAddressUrl(string address=null)
+        {
+            if (address != null)
+            {
+                HttpClient.BaseAddress = new Uri(address);
+            }
+        }
         #region [GetAndPost-Api-Params is String]
 
         /// <summary>
