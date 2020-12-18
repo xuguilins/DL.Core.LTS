@@ -10,23 +10,23 @@ namespace DL.Core.ulitity.web
     public class HttpWebRequestBuild
     {
         public static HttpWebRequestBuild Build => new HttpWebRequestBuild();
-        public string Post(string url,Dictionary<string,object> dic,Dictionary<string,string> header=null,string type= "application/json")=> PostMethod(url, dic, header, type);
+        public string Post(string url,Dictionary<string,object> dic,Dictionary<string,string> header=null,string type= HttpType.JsonType)=> PostMethod(url, dic, header, type);
  
-        public T Post<T>(string url, Dictionary<string, object> dic, Dictionary<string, string> header = null, string type = "application/json")
+        public T Post<T>(string url, Dictionary<string, object> dic, Dictionary<string, string> header = null, string type = HttpType.JsonType)
         {
             var data = PostMethod(url, dic, header, type);
             var obj = data.FromJson<T>();
             return obj;
         }
 
-        public T Get<T>(string url, Dictionary<string, string> dic, Dictionary<string, string> header = null, string type = "application/x-www-form-urlencoded")
+        public T Get<T>(string url, Dictionary<string, string> dic, Dictionary<string, string> header = null, string type = HttpType.FromType)
         {
             var data = GetMethod(url, dic, header, type);
             var obj = data.FromJson<T>();
             return obj;
         }
-        public string Get(string url, Dictionary<string, string> dic, Dictionary<string, string> header = null, string type = "application/x-www-form-urlencoded") => GetMethod(url,dic,header,type);
-        private string PostMethod(string url, Dictionary<string, object> dic, Dictionary<string, string> header = null, string type = "application/x-www-form-urlencoded")
+        public string Get(string url, Dictionary<string, string> dic, Dictionary<string, string> header = null, string type = HttpType.FromType) => GetMethod(url,dic,header,type);
+        private string PostMethod(string url, Dictionary<string, object> dic, Dictionary<string, string> header = null, string type=null)
         {
             HttpWebRequest request = WebRequest.CreateHttp(url);
             request.Method = "POST";
@@ -51,7 +51,7 @@ namespace DL.Core.ulitity.web
             var result = reader.ReadToEnd();
             return result;
         }
-        private string GetMethod(string url, Dictionary<string, string> dic, Dictionary<string, string> header = null,string type = "application/x-www-form-urlencoded")
+        private string GetMethod(string url, Dictionary<string, string> dic, Dictionary<string, string> header = null,string type =null)
         {
             StringBuilder sb = new StringBuilder();
             if (dic != null && dic.Count > 0)

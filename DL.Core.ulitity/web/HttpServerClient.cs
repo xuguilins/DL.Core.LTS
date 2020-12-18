@@ -17,7 +17,7 @@ namespace DL.Core.ulitity.web
 
         public HttpServerClient(HttpClient httpclient)
         {
-            httpclient.DefaultRequestHeaders.Add("Accept", "application/json");
+            httpclient.DefaultRequestHeaders.Add("Accept",HttpType.JsonType);
             HttpClient = httpclient;
            
         }

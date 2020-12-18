@@ -4,12 +4,13 @@ using System.Text;
 
 namespace DL.Core.ulitity.web
 {
+    /// <summary>
+    /// 常用请求媒体类型
+    /// </summary>
     public class HttpType
     {
 
         #region [请求媒体类型]
-
-
         /// <summary>
         /// XHTML格式
         /// </summary>
