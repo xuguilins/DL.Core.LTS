@@ -118,14 +118,33 @@ namespace DL.Core.Ado.MySql
                     if (left == null)
                         throw new Exception("表达式异常，无法解析，请检查表达式左侧的式子");
                     leftValue = left.Member.Name;
+                } else
+                {
+                    var equerPressions = expression.Body as MethodCallExpression;
+                    var memberItem = equerPressions.Object as MemberExpression;
+                    if (memberItem!=null)
+                        leftValue = memberItem.Member.Name;
+                    if (leftValue == null)
+                        throw new Exception("表达式异常，无法解析，请检查表达式左侧的式子");
+                    if (equerPressions != null)
+                    {
+                        var parms = equerPressions.Arguments?.FirstOrDefault();
+                        if (parms != null)
+                        {
+                            var consantItem = parms as ConstantExpression;
+                            if (consantItem!=null)
+                                rightValue = consantItem.Value.ToString();
+                            if (rightValue == null)
+                                throw new Exception("表达式异常，无法解析，请检查表达式右侧的值");
+                        }
+                    }       
                 }
-                var ex = expression.Body;
                 var model = new TEntity();
                 var type = model.GetType();
                 var props = type.GetProperties();
                 var tableName = GetTableName(type);
                 string itemCodes = string.Join(",", props.Select(x => x.Name));
-                string executeSql = $"SELECT TOP 1 {itemCodes} from {tableName} WHERE  {leftValue}='{rightValue}'";
+                string executeSql = $"SELECT  {itemCodes} from {tableName} WHERE  {leftValue}='{rightValue}' LIMIT 1";
                 var table = GetDataTable(executeSql, CommandType.Text);
                 var entity = table.ToObject<TEntity>();
                 return entity;
@@ -254,7 +273,6 @@ namespace DL.Core.Ado.MySql
                     com.CommandType = type;
                     com.Parameters.AddRange(parameter);
                     DataTable dt = new DataTable();
-                    
                     using (MySqlDataAdapter da = new MySqlDataAdapter(com))
                     {
                         da.Fill(dt);
@@ -331,11 +349,55 @@ namespace DL.Core.Ado.MySql
 
         public override DataTable GetPageDataTable(string tableName, int pageIndex, int pageSize, string orderByFiled, out int totalCount, string filterSql = null)
         {
-            throw new NotImplementedException();
+           if(filterSql == null)
+            {
+                string totalSql = string.Format("SELECT  count(1) as TotalCount from {0} ", tableName);
+                 totalCount = 0;
+                var obj = ExecuteScalar(totalSql, CommandType.Text);
+                if (obj != null)
+                    totalCount = Convert.ToInt32(obj);
+                int start = (pageIndex - 1) * pageSize;
+                var sql = string.Format("SELECT  * from {3} WHERE 1 = 1 order by {0}  DESC  LIMIT {1},{2}", orderByFiled, start, pageSize, tableName);
+                return GetDataTable(sql, CommandType.Text);
+
+            } else
+            {
+                string totalSql = string.Format("SELECT  count(1) as TotalCount from {0} ", tableName);
+                totalCount = 0;
+                var obj = ExecuteScalar(totalSql, CommandType.Text);
+                if (obj != null)
+                    totalCount = Convert.ToInt32(obj);            
+                int start = (pageIndex - 1) * pageSize;
+                var sql = string.Format("SELECT  * from {3} WHERE 1 = 1 {4} order by {0}  DESC  LIMIT {1},{2}", orderByFiled, start, pageSize, tableName,filterSql);
+                return GetDataTable(sql, CommandType.Text);
+            }
+
         }
         public override DataSet GetPageDataSet(string tableName, int pageIndex, int pageSize, string orderByFiled, out int totalCount, string filterSql = null)
         {
-            throw new NotImplementedException();
+            if (filterSql == null)
+            {
+                string totalSql = string.Format("SELECT  count(1) as TotalCount from {0} ", tableName);
+                totalCount = 0;
+                var obj = ExecuteScalar(totalSql, CommandType.Text);
+                if (obj != null)
+                    totalCount = Convert.ToInt32(obj);
+                int start = (pageIndex - 1) * pageSize;
+                var sql = string.Format("SELECT  * from {3} WHERE 1 = 1 order by {0}  DESC  LIMIT {1},{2}", orderByFiled, start, pageSize, tableName);
+                return GetDataSet(sql, CommandType.Text);
+
+            }
+            else
+            {
+                string totalSql = string.Format("SELECT  count(1) as TotalCount from {0} ", tableName);
+                totalCount = 0;
+                var obj = ExecuteScalar(totalSql, CommandType.Text);
+                if (obj != null)
+                    totalCount = Convert.ToInt32(obj);
+                int start = (pageIndex - 1) * pageSize;
+                var sql = string.Format("SELECT  * from {3} WHERE 1 = 1 {4} order by {0}  DESC  LIMIT {1},{2}", orderByFiled, start, pageSize, tableName, filterSql);
+                return GetDataSet(sql, CommandType.Text);
+            }
         }
     }
 }

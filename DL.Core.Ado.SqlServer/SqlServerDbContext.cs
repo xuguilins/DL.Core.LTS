@@ -160,8 +160,27 @@ namespace DL.Core.Ado.SqlServer
                     if (left==null)
                         throw new SqlServerException("表达式异常，无法解析，请检查表达式左侧的式子");
                     leftValue = left.Member.Name;
+                } else
+                {
+                    var equerPressions = expression.Body as MethodCallExpression;
+                    var memberItem = equerPressions.Object as MemberExpression;
+                    if (memberItem != null)
+                        leftValue = memberItem.Member.Name;
+                    if (leftValue == null)
+                        throw new Exception("表达式异常，无法解析，请检查表达式左侧的式子");
+                    if (equerPressions != null)
+                    {
+                        var parms = equerPressions.Arguments?.FirstOrDefault();
+                        if (parms != null)
+                        {
+                            var consantItem = parms as ConstantExpression;
+                            if (consantItem != null)
+                                rightValue = consantItem.Value.ToString();
+                            if (rightValue == null)
+                                throw new Exception("表达式异常，无法解析，请检查表达式右侧的值");
+                        }
+                    }
                 }
-                var ex = expression.Body;
                 var model = new TEntity();
                 var type = model.GetType();
                 var props = type.GetProperties();
