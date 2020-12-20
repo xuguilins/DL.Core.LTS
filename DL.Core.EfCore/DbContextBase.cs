@@ -24,31 +24,7 @@ namespace DL.Core.EfCore
    
         public virtual string ConnectionString { get; set; }
         public IUnitOfWork CurrentUnitOfWork { get; set; }
-      
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            ConnectionString = ConfigManager.Build.ConnectionString.SqlDefault;
-            optionsBuilder.UseSqlServer(ConnectionString);
-            Console.WriteLine($"进入DbContxtBase配置,数据库链接字符串：{ConnectionString}");
-        }
-      
-        protected  override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            IEntityBaseFinder entityFinder = new EntityBaseFinder();
-            var entityItems = entityFinder.FinderAll();
-            foreach (var enttiy in entityItems)
-            {
-                modelBuilder.Entity(enttiy);
-            }
-            //实体配置注册
-            IEntityConfigurationFinder configService = new EntityConfigurationFinder();
-            var configItems = configService.FinderAll();
-            foreach (var item in configItems)
-            {              
-                var assembly = Assembly.GetAssembly(item);
-                modelBuilder.ApplyConfigurationsFromAssembly(assembly);
-            }
-        }
+     
         public override int SaveChanges()
         {
             return base.SaveChanges();

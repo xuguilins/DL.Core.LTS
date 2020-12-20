@@ -12,3 +12,4 @@ namespace DL.Core.EfCore
         public static EntityConcurrentDictory Instacne => layz.Value;
     }
 }
+

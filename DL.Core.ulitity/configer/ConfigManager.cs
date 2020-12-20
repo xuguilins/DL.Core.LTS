@@ -64,7 +64,7 @@ namespace DL.Core.ulitity.configer
             db.AutoAdoNetMiagraionEnable = Convert.ToBoolean(config["AutoAdoNetMiagraionEnable"]);
             db.AutoEFMigrationEnable = Convert.ToBoolean(config["AutoEFMigrationEnable"]);
             return db;
-        }
+        }  
 
         /// <summary>
         /// 获取DL节点的Swagger配置

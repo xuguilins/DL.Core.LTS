@@ -19,6 +19,8 @@
     <ProjectReference Include="..\DL.Core.Ado.MySql\DL.Core.Ado.MySql.csproj" />
     <ProjectReference Include="..\DL.Core.Ado.SqlServer\DL.Core.Ado.SqlServer.csproj" />
     <ProjectReference Include="..\DL.Core.Ado\DL.Core.Ado.csproj" />
+    <ProjectReference Include="..\DL.Core.EfCore.MySql\DL.Core.EfCore.MySql.csproj" />
+    <ProjectReference Include="..\DL.Core.EfCore.SqlServer\DL.Core.EfCore.SqlServer.csproj" />
     <ProjectReference Include="..\DL.Core.EfCore\DL.Core.EfCore.csproj" />
     <ProjectReference Include="..\DL.Core.Mediator\DL.Core.Mediator.csproj" />
   </ItemGroup>
