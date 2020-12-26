@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using DL.Core.ulitity.attubites;
 using DL.Core.EfCore.MySql;
+using System.Collections.Generic;
+using DL.Core.Ado.SqlServer;
 
 namespace ConsoleApp2
 {
@@ -17,10 +19,14 @@ namespace ConsoleApp2
 
         private static void Main(string[] args)
         {
-            IServiceCollection service = new ServiceCollection();
-            service.AddEnginePack<MySqlDbContext>();
-            var userservice = ServiceLocator.Instace.GetService<IUserService>();
-            userservice.CreateUserInfo(new UserInfo { CreateUser = "徐贵林", PassWord = "1111", UserCount = 1, UserName = "徐贵林" });
+            List<UserInfo> list = new List<UserInfo>();
+            for (int i = 0; i < 1300; i++)
+            {
+                list.Add(new UserInfo { CreateUser = "abc", PassWord = i.ToString(), UserCount = i, UserName = "AOO" + i });
+            }
+            ISqlServerDbContext context = new SqlServerDbContext();
+            context.CreateDbConnection("Data Source=.;Initial Catalog=test_sqlbusiness;User ID=sa;Password=0103");
+            context.InsertItems(list);
 
             Console.ReadKey();
         }

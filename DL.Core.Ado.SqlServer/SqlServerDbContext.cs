@@ -14,6 +14,7 @@ using DL.Core.Ado.SqlServer;
 using DL.Core.Ado.SqlServer.finders;
 using DL.Core.ulitity.attubites;
 using DL.Core.ulitity.configer;
+using DL.Core.ulitity.log;
 using DL.Core.ulitity.table;
 using DL.Core.ulitity.tools;
 namespace DL.Core.Ado.SqlServer
@@ -25,7 +26,7 @@ namespace DL.Core.Ado.SqlServer
         private SqlTransaction _sqlTransaction;
         private bool _begintransaction = false;
         private static readonly ConcurrentDictionary<string, SqlConnection> conPairs = new ConcurrentDictionary<string, SqlConnection>();
-
+        private ILogger logger = LogManager.GetLogger<SqlServerDbContext>();
         public override DataBaseType Type => DataBaseType.SqlServer;
         public string CurrentConnectionString { get; private set; }
         public IDbConnection CurrentDbContext { get; private set; }
@@ -279,28 +280,46 @@ namespace DL.Core.Ado.SqlServer
                 var props = type.GetProperties();
                 var itemCodes = string.Join(",", props.Select(x => x.Name));
                 var tableName = GetTableName(type);
-                StringBuilder sb = new StringBuilder();
-                foreach (var item in entities)
-                {
-                    string strValues = string.Empty;
-                    foreach (var pos in props)
+                int AllCount = entities.Count;
+                int forCount = 500;
+           
+                    //批次提交
+                    int startCount = 0;
+                    //计算可以分多少次
+                    int PageCount = Convert.ToInt32(Math.Ceiling((double)AllCount / 500));
+                    do
                     {
-                        var value = pos.GetValue(item, null);
-                        if (value == null || value == DBNull.Value)
-                            value = "";
-                        strValues += $"'{value}',";
+                        if (AllCount < 500)
+                            forCount = AllCount;
+                        StringBuilder sb = new StringBuilder();
+                        for (int j = 0; j < forCount; j++)
+                        {
+                            var item = entities[j];
+                            string strValues = string.Empty;
+                            foreach (var pos in props)
+                            {
+                                var value = pos.GetValue(item, null);
+                                if (value == null || value == DBNull.Value)
+                                    value = "";
+                                strValues += $"'{value}',";
 
-                    }
-                    var codeValue = strValues.Substring(0, strValues.Length - 1);
-                    sb.Append($"INSERT INTO  {tableName}({itemCodes})VALUES({codeValue});");
-                }
-                var executeSql = sb.ToString();
-                return ExecuteSql(executeSql, CommandType.Text);
+                            }
+                            var codeValue = strValues.Substring(0, strValues.Length - 1);
+                            sb.Append($"INSERT INTO  {tableName}({itemCodes})VALUES({codeValue});");
+                            startCount++;
+                        }
+                        entities.RemoveRange(0, forCount);
+                        AllCount = entities.Count;
+                         var executeSql = sb.ToString();
+                    if (string.IsNullOrWhiteSpace(executeSql))
+                        break;
+                       ExecuteSql(executeSql, CommandType.Text);
+                    } while (PageCount-- > 0);
+                   return 1;
             }
             catch (SqlServerException ex)
             {
-
-                throw ex;
+                throw;
             }
           
 
