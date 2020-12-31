@@ -121,10 +121,15 @@ namespace DL.Core.Ado.SqlServer
             try
             {
                 ValidateConnection();
-                using (SqlCommand com = new SqlCommand(sql, _sqlConnection, _sqlTransaction))
+                using (SqlCommand com = new SqlCommand(sql, _sqlConnection))
                 {
                     com.CommandText = sql;
-                    com.Parameters.AddRange(parameter);
+                    if (parameter.Length > 0)
+                        com.Parameters.AddRange(parameter);
+                    if (parameter.Length > 0)
+                        com.Parameters.AddRange(parameter);
+                    if (BeginTransaction)
+                        com.Transaction = _sqlTransaction;
                     com.CommandType = type;
                     return com.ExecuteNonQuery();
                 }
@@ -332,7 +337,10 @@ namespace DL.Core.Ado.SqlServer
                 using (SqlCommand com = new SqlCommand(sql, _sqlConnection))
                 {
                     com.CommandType = type;
-                    com.Parameters.AddRange(parameter);
+                    if (parameter.Length > 0)
+                        com.Parameters.AddRange(parameter);
+                    if (BeginTransaction)
+                        com.Transaction = _sqlTransaction;
                     DataTable dt = new DataTable();
                     using (SqlDataAdapter da = new SqlDataAdapter(com))
                     {
@@ -357,7 +365,10 @@ namespace DL.Core.Ado.SqlServer
                 using (SqlCommand com = new SqlCommand(sql, _sqlConnection))
                 {
                     com.CommandType = type;
-                    com.Parameters.AddRange(parameter);
+                    if (parameter.Length > 0)
+                        com.Parameters.AddRange(parameter);
+                    if (BeginTransaction)
+                        com.Transaction = _sqlTransaction;
                     DataSet ds = new DataSet();
                     using (SqlDataAdapter da = new SqlDataAdapter(com))
                     {
@@ -380,7 +391,10 @@ namespace DL.Core.Ado.SqlServer
                 using (SqlCommand com = new SqlCommand(sql, _sqlConnection, _sqlTransaction))
                 {
                     com.CommandText = sql;
-                    com.Parameters.AddRange(parameter);
+                    if (parameter.Length > 0)
+                        com.Parameters.AddRange(parameter);
+                    if (BeginTransaction)
+                        com.Transaction = _sqlTransaction;
                     com.CommandType = type;
                     return com.ExecuteScalar();
                 }

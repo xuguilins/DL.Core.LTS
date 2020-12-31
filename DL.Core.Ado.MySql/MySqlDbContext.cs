@@ -80,11 +80,14 @@ namespace DL.Core.Ado.MySql
             {
                 
                 ValidateConnection();
-                using (MySqlCommand com = new MySqlCommand(sql, _MySqlConnection, _MySqlTransaction))
+                using (MySqlCommand com = new MySqlCommand(sql, _MySqlConnection))
                 {
                     com.CommandText = sql;
-                    com.Parameters.AddRange(parameter);
+                    if (parameter.Length > 0)
+                        com.Parameters.AddRange(parameter);  
                     com.CommandType = type;
+                    if (BeginTransaction)
+                        com.Transaction = _MySqlTransaction;
                     return com.ExecuteNonQuery();
                 }
             }
@@ -271,7 +274,10 @@ namespace DL.Core.Ado.MySql
                 using (MySqlCommand com = new MySqlCommand(sql, _MySqlConnection))
                 {
                     com.CommandType = type;
-                    com.Parameters.AddRange(parameter);
+                    if (parameter.Length > 0)
+                        com.Parameters.AddRange(parameter);
+                    if (BeginTransaction)
+                        com.Transaction = _MySqlTransaction;
                     DataTable dt = new DataTable();
                     using (MySqlDataAdapter da = new MySqlDataAdapter(com))
                     {
@@ -295,7 +301,10 @@ namespace DL.Core.Ado.MySql
                 using (MySqlCommand com = new MySqlCommand(sql, _MySqlConnection))
                 {
                     com.CommandType = type;
-                    com.Parameters.AddRange(parameter);
+                    if (parameter.Length > 0)
+                        com.Parameters.AddRange(parameter);
+                    if (BeginTransaction)
+                        com.Transaction = _MySqlTransaction;
                     DataSet ds = new DataSet();
                     using (MySqlDataAdapter da = new MySqlDataAdapter(com))
                     {
@@ -315,10 +324,13 @@ namespace DL.Core.Ado.MySql
             try
             {
                 ValidateConnection();
-                using (MySqlCommand com = new MySqlCommand(sql, _MySqlConnection, _MySqlTransaction))
+                using (MySqlCommand com = new MySqlCommand(sql, _MySqlConnection))
                 {
                     com.CommandText = sql;
-                    com.Parameters.AddRange(parameter);
+                    if (parameter.Length > 0)
+                        com.Parameters.AddRange(parameter);
+                    if (BeginTransaction)
+                        com.Transaction = _MySqlTransaction;
                     com.CommandType = type;
                     return com.ExecuteScalar();
                 }

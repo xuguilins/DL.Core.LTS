@@ -10,7 +10,9 @@ using DL.Core.ulitity.attubites;
 using DL.Core.EfCore.MySql;
 using System.Collections.Generic;
 using DL.Core.Ado.SqlServer;
-
+using DL.Core.Ado.Oracle;
+using System.Data;
+using Oracle.ManagedDataAccess.Client;
 namespace ConsoleApp2
 {
     internal class Program
@@ -19,14 +21,22 @@ namespace ConsoleApp2
 
         private static void Main(string[] args)
         {
-            List<UserInfo> list = new List<UserInfo>();
-            for (int i = 0; i < 1300; i++)
+            var conStr = "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=10.100.67.13)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orcl)));User Id=C##ZTASK;Password=Lp!X8mPIU!PFLqmi";
+            IOraceDbContext context = new OraceDbContext();
+            context.CreateDbConnection(conStr);
+            //查询
+            //var seachSql = "SELECT * FROM TFTASK_WEEKTIMEINFO";
+            //var table= context.GetDataTable(seachSql, System.Data.CommandType.Text);
+            //修改
+            context.BeginTransaction = true;
+            OracleParameter[] ps =
             {
-                list.Add(new UserInfo { CreateUser = "abc", PassWord = i.ToString(), UserCount = i, UserName = "AOO" + i });
-            }
-            ISqlServerDbContext context = new SqlServerDbContext();
-            context.CreateDbConnection("Data Source=.;Initial Catalog=test_sqlbusiness;User ID=sa;Password=0103");
-            context.InsertItems(list);
+                new OracleParameter("NOWYEAR","20225"),
+                new OracleParameter("ID",63)
+            };
+           var updateSql = "update TFTASK_WEEKTIMEINFO SET NOWYEAR=:NOWYEAR WHERE ID=:ID";
+            var count= context.ExecuteNonQuery(updateSql, CommandType.Text,ps);
+            context.SaveTransactionChange();
 
             Console.ReadKey();
         }
