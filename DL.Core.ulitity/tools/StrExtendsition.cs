@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -332,6 +333,25 @@ namespace DL.Core.ulitity.tools
             {
                 return defaultValue;
             }
+        }
+        /// <summary>
+        /// 对象转字典
+        /// 仅支持一级对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data">对象数据</param>
+        /// <returns></returns>
+        public static Hashtable ToHashTable<T>(this T data) where T:class,new() 
+        {
+            var type = data.GetType();
+            var propItems = type.GetProperties();
+            Hashtable hs = new Hashtable();
+            foreach (var item in propItems)
+            {
+                var value = item.GetValue(data, null);
+                hs.Add(item.Name, value);
+            }
+            return hs;
         }
     }
 }

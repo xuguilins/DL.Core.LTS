@@ -13,6 +13,8 @@ using DL.Core.Ado.SqlServer;
 using DL.Core.Ado.Oracle;
 using System.Data;
 using Oracle.ManagedDataAccess.Client;
+using DL.Core.ulitity.tools;
+
 namespace ConsoleApp2
 {
     internal class Program
@@ -21,23 +23,8 @@ namespace ConsoleApp2
 
         private static void Main(string[] args)
         {
-            var conStr = "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=10.100.67.13)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=orcl)));User Id=C##ZTASK;Password=Lp!X8mPIU!PFLqmi";
-            IOraceDbContext context = new OraceDbContext();
-            context.CreateDbConnection(conStr);
-            //查询
-            //var seachSql = "SELECT * FROM TFTASK_WEEKTIMEINFO";
-            //var table= context.GetDataTable(seachSql, System.Data.CommandType.Text);
-            //修改
-            context.BeginTransaction = true;
-            OracleParameter[] ps =
-            {
-                new OracleParameter("NOWYEAR","20225"),
-                new OracleParameter("ID",63)
-            };
-           var updateSql = "update TFTASK_WEEKTIMEINFO SET NOWYEAR=:NOWYEAR WHERE ID=:ID";
-            var count= context.ExecuteNonQuery(updateSql, CommandType.Text,ps);
-            context.SaveTransactionChange();
 
+            Console.WriteLine(StrHelper.GetOrderNumber());
             Console.ReadKey();
         }
     }
@@ -51,6 +38,7 @@ namespace ConsoleApp2
         public string PassWord { get; set; }
         public int UserCount { get; set; }
         public string CreateUser { get; set; }
+       public List<UserInfo> UserInfos { get; set; }
     }
     public class UserInfoEntityConfiguration : ConfigurationBase<UserInfo>
     {

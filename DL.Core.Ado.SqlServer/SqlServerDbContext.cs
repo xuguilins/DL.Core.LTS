@@ -142,7 +142,6 @@ namespace DL.Core.Ado.SqlServer
 
         }
 
-       // protected private 
         public override int ExecuteNonQuery(string sql, CommandType type, params DbParameter[] parameter)
         {
             return ExecuteSql(sql, type, parameter);

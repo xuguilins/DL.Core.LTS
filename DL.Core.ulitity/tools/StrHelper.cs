@@ -42,7 +42,25 @@ namespace DL.Core.ulitity.tools
             var result = string.Format("{0:x}", i - DateTime.Now.Ticks).ToUpper();
             return time + result;
         }
-
+        /// <summary>
+        /// 获取订单号
+        /// </summary>
+        /// <param name="fix"></param>
+        /// <returns></returns>
+        public static string GetOrderNumber(string fix="PR")
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(fix);
+            sb.Append(GetDataTime("yyyyMMddHHmm"));
+            for (int i = 0; i < 6; i++)
+            {
+                Random r = new Random(Guid.NewGuid().GetHashCode());
+                var res= r.Next(0, 10);
+                sb.Append(res.ToString());
+            }
+            return sb.ToString();
+        }
+ 
         /// <summary>
         /// 获取可排序的GUID
         /// </summary>
