@@ -4,16 +4,16 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>v1.0.0发布</Description>
+    <Description>个人类库
+封装使用EFCore操作数据库的基类</Description>
+    <Version>3.1.0</Version>
+    <Authors>余温</Authors>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DL.Core.ulitity" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.9" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DL.Core.ulitity\DL.Core.ulitity.csproj" />
   </ItemGroup>
 
 </Project>

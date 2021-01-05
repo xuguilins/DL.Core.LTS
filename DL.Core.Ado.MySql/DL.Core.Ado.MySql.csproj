@@ -1,16 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>余温</Authors>
+    <Version>3.1.0</Version>
+    <Description>个人类库
+Ado.NET操作MySql数据库的封装</Description>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DL.Core.Ado" Version="3.1.0" />
+    <PackageReference Include="DL.Core.ulitity" Version="3.1.0" />
     <PackageReference Include="MySql.Data" Version="8.0.22" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DL.Core.Ado\DL.Core.Ado.csproj" />
-    <ProjectReference Include="..\DL.Core.ulitity\DL.Core.ulitity.csproj" />
   </ItemGroup>
 
 </Project>

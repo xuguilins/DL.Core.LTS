@@ -6,13 +6,15 @@
     <Authors>余温</Authors>
     <Description>个人类库
 使用Ado.Net操作SqlServer数据库的封装</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DL.Core.Ado" Version="3.1.0" />
-    <PackageReference Include="DL.Core.ulitity" Version="3.1.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DL.Core.Ado\DL.Core.Ado.csproj" />
+    <ProjectReference Include="..\DL.Core.ulitity\DL.Core.ulitity.csproj" />
   </ItemGroup>
 
 </Project>

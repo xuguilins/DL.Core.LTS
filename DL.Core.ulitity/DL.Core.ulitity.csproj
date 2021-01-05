@@ -3,7 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>v1.0.0发布</Description>
+    <Description>个人类库
+工具类封装</Description>
+    <Authors>余温</Authors>
+    <Company>余温</Company>
+    <Version>3.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

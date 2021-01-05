@@ -2,15 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>3.1.0</Version>
+    <Authors>余温</Authors>
+    <Description>个人类库
+使用ADO.NET操作Oracle数据库的封装</Description>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DL.Core.Ado" Version="3.1.0" />
+    <PackageReference Include="DL.Core.ulitity" Version="3.1.0" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.100" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DL.Core.Ado\DL.Core.Ado.csproj" />
-    <ProjectReference Include="..\DL.Core.ulitity\DL.Core.ulitity.csproj" />
   </ItemGroup>
 
 </Project>
