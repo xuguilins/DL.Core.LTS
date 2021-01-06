@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DL.Core.ulitity.log;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace DL.Core.ulitity.configer
         private static List<XmlNode> hostList = new List<XmlNode>();
         private static List<XmlNode> SetList = new List<XmlNode>();
         private static bool isLoad =false;
+        private static ILogger logger = LogManager.GetLogger<XmlConfigManager>();
         public XmlConfigManager()
         {
             if (!isLoad)
@@ -19,7 +21,10 @@ namespace DL.Core.ulitity.configer
         private void InitXmlData()
         {
            isLoad = true;
-            var path = string.Empty; //此地  //@"C:\Users\陶翔荣\source\repos\DL.Core.LTS\DL.Core.ulitity\DLConfig.xml";
+            string path = ConfigManager.Build.GetDLSetting("XmlPath");
+            if (string.IsNullOrWhiteSpace(path))
+                path = AppDomain.CurrentDomain.BaseDirectory;
+            logger.Info($"xml文件读取路径：{path}");
             XmlDocument xml = new XmlDocument();
             xml.Load(path);
             XmlElement elment = xml.DocumentElement;

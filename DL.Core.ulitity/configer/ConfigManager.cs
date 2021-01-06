@@ -26,7 +26,7 @@ namespace DL.Core.ulitity.configer
         }
         public string GetDLSetting(string key)
         {
-            return Configuration["DL:Setting" + key];
+            return Configuration["DL:Setting:" + key];
         }
         public string GetValue(string key)
         {

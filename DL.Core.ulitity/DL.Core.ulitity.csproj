@@ -4,10 +4,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>个人类库
-工具类封装</Description>
+工具类封装
+修复读取配置的问题
+修复读取xml文件的问题</Description>
     <Authors>余温</Authors>
     <Company>余温</Company>
-    <Version>3.1.0</Version>
+    <Version>3.1.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
