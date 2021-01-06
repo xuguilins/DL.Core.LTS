@@ -105,14 +105,9 @@ namespace DL.Core.Swagger
                                         ClockSkew = TimeSpan.Zero,
                                     };
                                 });
-                                #endregion
-
-                                
+                                #endregion 
 
                             }
-
-
-
                         }
                     }
                 }
