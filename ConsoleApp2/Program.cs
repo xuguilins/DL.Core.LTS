@@ -12,8 +12,9 @@ using System.Collections.Generic;
 using DL.Core.Ado.SqlServer;
 using DL.Core.Ado.Oracle;
 using System.Data;
-using Oracle.ManagedDataAccess.Client;
 using DL.Core.ulitity.tools;
+using System.IO;
+using DL.Core.ulitity.configer;
 
 namespace ConsoleApp2
 {
@@ -23,8 +24,17 @@ namespace ConsoleApp2
 
         private static void Main(string[] args)
         {
+            var files = FileExtensition.LoadFile();
+            using(FileStream fs = new FileStream(files,FileMode.Open))
+            {
+                using(StreamReader sr = new StreamReader(fs))
+                {
+                    var str = sr.ReadToEnd();
+                }
+               
+            }
 
-            Console.WriteLine(StrHelper.GetOrderNumber());
+          //  var data = ConfigManager.Build(@"D:\MyGitHub\DL.Core.LTS\ConsoleApp2").ConnectionString;
             Console.ReadKey();
         }
     }

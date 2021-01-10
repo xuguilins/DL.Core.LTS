@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace DL.Core.Swagger
@@ -72,14 +73,24 @@ namespace DL.Core.Swagger
                                         }
                                     });
                                 }
-                                if (string.IsNullOrWhiteSpace(swg.XmlAssmblyName))
-                                    throw new Exception("无效的xml文件,请在配置文件中配置所需的xml文件");
-                                var xmlList = swg.XmlAssmblyName.Split(',');
-                                foreach (var xml in xmlList)
+                                if (!string.IsNullOrWhiteSpace(swg.XmlAssmblyName))
                                 {
-                                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xml);
-                                    options.IncludeXmlComments(xmlPath);
-                                }
+                                  
+                                    var xmlList = swg.XmlAssmblyName.Split(',');
+                                    foreach (var xml in xmlList)
+                                    {
+                                        var xmlPath = Path.Combine(AppContext.BaseDirectory, xml);
+                                        options.IncludeXmlComments(xmlPath);
+                                    }
+                                } else
+                                {
+                                    var path = AppContext.BaseDirectory;
+                                    var files = Directory.GetFiles(path, "*.xml",SearchOption.TopDirectoryOnly);
+                                    foreach (var item in files)
+                                    {
+                                        options.IncludeXmlComments(item);
+                                    }
+                                }                      
                             });
                             if (swg.Authorization)
                             {
