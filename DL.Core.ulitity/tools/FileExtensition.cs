@@ -6,6 +6,7 @@ namespace DL.Core.ulitity.tools
 {
     public static class FileExtensition
     {
+        public static string[] pathArrys = new string[6] { "./", "../", "../../", "../../../", "../../../../", "../../../../../" };
         /// <summary>
         /// 文件路径移除
         /// </summary>
@@ -79,6 +80,26 @@ namespace DL.Core.ulitity.tools
             {
                 return "未找到指定路径上的文件";
             }
+        }
+        /// <summary>
+        /// 加载文件
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public static string LoadFile(string fileName = "appsettings.json")
+        {
+            string result = string.Empty;
+            for (int i = 0; i < pathArrys.Length; i++)
+            {
+                var item = pathArrys[i];
+                var path = Path.Combine(item, fileName);
+                if (File.Exists(path))
+                {
+                    result = path;
+                    break;
+                }
+            }
+            return result;
         }
     }
 }
