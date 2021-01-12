@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,14 @@ namespace DL.Core.ulitity.tools
 {
     public static class StrExtendsition
     {
+        /// <summary>
+        /// 生成真正的随机数
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="seed"></param>
+        /// <returns></returns>
+        public static int StrictNext(this Random r, int seed = int.MaxValue)=> new Random((int)Stopwatch.GetTimestamp()).Next(seed);
+        
         /// <summary>
         /// 字符转INT
         /// </summary>
@@ -233,6 +242,33 @@ namespace DL.Core.ulitity.tools
         {
             MemoryStream ms = new MemoryStream(bytes);
             return ms;
+        }
+
+        /// <summary>
+        /// 将流转换为内存流
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static MemoryStream SaveAsMemoryStream(this Stream stream)
+        {
+            stream.Position = 0;
+            return new MemoryStream(stream.ToArray());
+        }
+
+        /// <summary>
+        /// byte数组
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static byte[] ToArray(this Stream stream)
+        {
+            stream.Position = 0;
+            byte[] bytes = new byte[stream.Length];
+            stream.Read(bytes, 0, bytes.Length);
+
+            // 设置当前流的位置为流的开始
+            stream.Seek(0, SeekOrigin.Begin);
+            return bytes;
         }
         /// <summary>
         /// 小写金额转大写
