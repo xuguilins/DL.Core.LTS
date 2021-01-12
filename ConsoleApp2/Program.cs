@@ -24,6 +24,7 @@ namespace ConsoleApp2
 
         private static void Main(string[] args)
         {
+
             var files = FileExtensition.LoadFile();
             using(FileStream fs = new FileStream(files,FileMode.Open))
             {
@@ -44,6 +45,7 @@ namespace ConsoleApp2
     }
     public class UserInfo : EntityBase
     {
+       
         public string UserName { get; set; }
         public string PassWord { get; set; }
         public int UserCount { get; set; }
