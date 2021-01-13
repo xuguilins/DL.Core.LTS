@@ -37,8 +37,9 @@ namespace WebApplication1
                 app.UseDeveloperExceptionPage();
             }
 
+         
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseSwaggerPack();
             app.UseEndpoints(endpoints =>

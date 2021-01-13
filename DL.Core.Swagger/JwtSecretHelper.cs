@@ -19,7 +19,7 @@ namespace DL.Core.Swagger
         /// <summary>
         /// 颁发JWT密钥
         /// </summary>
-        /// <param name="userName"></param>
+        /// <param name="userName">用户名</param>
         /// <returns></returns>
         public static string CreateSecret(string userName)
         {
@@ -43,9 +43,6 @@ namespace DL.Core.Swagger
                   signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
               );
             var jwttoken = new JwtSecurityTokenHandler().WriteToken(token);
-            var values = new ConcurrentDictionary<DateTime, string>();
-            values.TryAdd(expiertime, jwttoken);
-            //dic.TryAdd("token", values);
             return jwttoken;
         }
 

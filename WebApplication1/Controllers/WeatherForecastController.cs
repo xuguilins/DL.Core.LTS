@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace WebApplication1.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
@@ -38,6 +40,16 @@ namespace WebApplication1.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+        [AllowAnonymous]
+        [HttpGet("GetToken")]
+        /// <summary>
+        /// 获取token
+        /// </summary>
+        /// <returns></returns>
+        public string GetToken()
+        {
+            return DL.Core.Swagger.JwtSecretHelper.CreateSecret("admin");
         }
     }
 }

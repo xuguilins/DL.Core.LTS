@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,26 +53,16 @@ namespace DL.Core.Swagger
                                 });
                                 if (swg.Authorization)
                                 {
-                                    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                                    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                                     {
                                         Description = "请求头中需要添加Jwt授权Token：Bearer Token",
                                         Name = "Authorization",
-                                        In = ParameterLocation.Header,                                      
+                                        In = ParameterLocation.Header,
                                         Type = SecuritySchemeType.ApiKey
                                     });
-                                    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-                                    {
-                                        {
-                                            new OpenApiSecurityScheme
-                                            {
-                                                Reference = new OpenApiReference {
-                                                    Type = ReferenceType.SecurityScheme,
-                                                    Id = "Bearer"
-                                                }
-                                            },
-                                            new string[] { }
-                                        }
-                                    });
+                                    options.OperationFilter<AddResponseHeadersFilter>();
+                                    options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
+                                    options.OperationFilter<SecurityRequirementsOperationFilter>();
                                 }
                                 if (!string.IsNullOrWhiteSpace(swg.XmlAssmblyName))
                                 {
