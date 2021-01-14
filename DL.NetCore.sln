@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.EfCore.MySql", "DL.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.EfCore.SqlServer", "DL.Core.EfCore.SqlServer\DL.Core.EfCore.SqlServer.csproj", "{D6115690-1271-455E-9D51-5B553CCEE4FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{3DCF8758-BF48-44F0-ABD3-69875F3D36C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{D6115690-1271-455E-9D51-5B553CCEE4FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6115690-1271-455E-9D51-5B553CCEE4FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6115690-1271-455E-9D51-5B553CCEE4FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DCF8758-BF48-44F0-ABD3-69875F3D36C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DCF8758-BF48-44F0-ABD3-69875F3D36C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DCF8758-BF48-44F0-ABD3-69875F3D36C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DCF8758-BF48-44F0-ABD3-69875F3D36C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
