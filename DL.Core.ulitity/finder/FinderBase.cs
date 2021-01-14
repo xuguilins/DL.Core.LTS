@@ -15,7 +15,7 @@ namespace DL.Core.ulitity.finder
             var files = Directory.GetFiles(path, "*.dll", SearchOption.TopDirectoryOnly)
            .ToArray();
             var assemblies = files.Select(Assembly.LoadFrom).Distinct().ToArray();
-            var types = assemblies.SelectMany(x => x.GetTypes()).ToList();
+            var types = assemblies.SelectMany(x => x?.GetTypes()).ToList();
             LoadTypes = types;
         }
 
