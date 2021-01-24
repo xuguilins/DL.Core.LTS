@@ -15,21 +15,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.Ado.Oracle", "DL.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.ulitity", "DL.Core.ulitity\DL.Core.ulitity.csproj", "{31C8AB8F-BAC9-4D37-ACCF-529BBCE12210}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp2", "ConsoleApp2\ConsoleApp2.csproj", "{9824C660-6662-47E6-BD9F-C068DF362F15}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.Swagger", "DL.Core.Swagger\DL.Core.Swagger.csproj", "{1A069F63-E77F-4AD2-91F1-4395DB0B01C1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{5AA0652E-0804-416D-9A32-3CF3B3AD7E36}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp3", "ConsoleApp3\ConsoleApp3.csproj", "{4834130D-21F2-4C99-8E65-12F5058E47D2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.Mediator", "DL.Core.Mediator\DL.Core.Mediator.csproj", "{82FFB8F0-A3A8-42BE-AD3E-A40147A622CA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.Notify", "DL.Core.Notify\DL.Core.Notify.csproj", "{FDE62165-0CA4-4C37-8BD0-D16505BCCBC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DL.Core.EfCore.MySql", "DL.Core.EfCore.MySql\DL.Core.EfCore.MySql.csproj", "{F9DAF3B4-0DE1-4DAC-BFC3-8816362EC79A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.EfCore.MySql", "DL.Core.EfCore.MySql\DL.Core.EfCore.MySql.csproj", "{F9DAF3B4-0DE1-4DAC-BFC3-8816362EC79A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DL.Core.EfCore.SqlServer", "DL.Core.EfCore.SqlServer\DL.Core.EfCore.SqlServer.csproj", "{D6115690-1271-455E-9D51-5B553CCEE4FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL.Core.EfCore.SqlServer", "DL.Core.EfCore.SqlServer\DL.Core.EfCore.SqlServer.csproj", "{D6115690-1271-455E-9D51-5B553CCEE4FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,22 +55,10 @@ Global
 		{31C8AB8F-BAC9-4D37-ACCF-529BBCE12210}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31C8AB8F-BAC9-4D37-ACCF-529BBCE12210}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31C8AB8F-BAC9-4D37-ACCF-529BBCE12210}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9824C660-6662-47E6-BD9F-C068DF362F15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9824C660-6662-47E6-BD9F-C068DF362F15}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9824C660-6662-47E6-BD9F-C068DF362F15}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9824C660-6662-47E6-BD9F-C068DF362F15}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1A069F63-E77F-4AD2-91F1-4395DB0B01C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1A069F63-E77F-4AD2-91F1-4395DB0B01C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A069F63-E77F-4AD2-91F1-4395DB0B01C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A069F63-E77F-4AD2-91F1-4395DB0B01C1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5AA0652E-0804-416D-9A32-3CF3B3AD7E36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5AA0652E-0804-416D-9A32-3CF3B3AD7E36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5AA0652E-0804-416D-9A32-3CF3B3AD7E36}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5AA0652E-0804-416D-9A32-3CF3B3AD7E36}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4834130D-21F2-4C99-8E65-12F5058E47D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4834130D-21F2-4C99-8E65-12F5058E47D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4834130D-21F2-4C99-8E65-12F5058E47D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4834130D-21F2-4C99-8E65-12F5058E47D2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82FFB8F0-A3A8-42BE-AD3E-A40147A622CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82FFB8F0-A3A8-42BE-AD3E-A40147A622CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82FFB8F0-A3A8-42BE-AD3E-A40147A622CA}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -28,7 +28,7 @@ namespace DL.Core.ulitity.log
             {
                 DateTime dateTimeNow = DateTime.Now;
                 var path = AppDomain.CurrentDomain.BaseDirectory;
-                string logDirPath = path+"\\log";
+                string logDirPath = path+"\\logs";
                 if (!logDirPath.CheckDirctoryIsExite())
                 {
                     FileExtensition.CreateDic(logDirPath);
