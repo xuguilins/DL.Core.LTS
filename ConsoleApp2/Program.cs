@@ -15,7 +15,7 @@ using System.Data;
 using DL.Core.ulitity.tools;
 using System.IO;
 using DL.Core.ulitity.configer;
-
+using DL.Core.ulitity.table;
 namespace ConsoleApp2
 {
     internal class Program
@@ -24,70 +24,37 @@ namespace ConsoleApp2
 
         private static void Main(string[] args)
         {
+            ISqlServerDbContext context = new SqlServerDbContext();
+            context.CreateDbConnection("Data Source=.;Initial Catalog=CodeFormDB;Persist Security Info=True;User ID=sa;Password=0103");
+            var sql = string.Format("SELECT * FROM USERINFO");
+            var list = context.GetDataTable(sql, CommandType.Text).ToObjectList<UserInfo>();
 
-            var files = FileExtensition.LoadFile();
-            using(FileStream fs = new FileStream(files,FileMode.Open))
-            {
-                using(StreamReader sr = new StreamReader(fs))
-                {
-                    var str = sr.ReadToEnd();
-                }
-               
-            }
 
-          //  var data = ConfigManager.Build(@"D:\MyGitHub\DL.Core.LTS\ConsoleApp2").ConnectionString;
             Console.ReadKey();
         }
     }
-    public class MySqlDbContext : MySqlDefaultDbContext<MySqlDbContext>
+    public class UserInfo
     {
-
-    }
-    public class UserInfo : EntityBase
-    {
-       
-        public string UserName { get; set; }
-        public string PassWord { get; set; }
-        public int UserCount { get; set; }
-        public string CreateUser { get; set; }
-       public List<UserInfo> UserInfos { get; set; }
-    }
-    public class UserInfoEntityConfiguration : ConfigurationBase<UserInfo>
-    {
-        public override Type DbContextType => typeof(MySqlDbContext);
-
-        public override void Configure(EntityTypeBuilder<UserInfo> builder)
-        {
-            builder.Property(x => x.Id).IsRequired().HasMaxLength(50);
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.PassWord).HasMaxLength(50);
-            builder.Property(x => x.UserName).HasMaxLength(50);
-            builder.Property(x => x.CreatedTime).HasMaxLength(20);
-            builder.Property(x => x.UserCount).HasMaxLength(10);
-            builder.Property(x => x.CreateUser).HasMaxLength(50);
-
-
-
-
-        }
+        /// <summary>
+        ///                      
+        /// </summary>
+        public DateTime CREATETIME { get; set; }
+        /// <summary>
+        ///                      
+        /// </summary>
+        public int ID { get; set; }
+        /// <summary>
+        ///                      
+        /// </summary>
+        public int USERAGE { get; set; }
+        /// <summary>
+        ///                      
+        /// </summary>
+        public string USERNAME { get; set; }
+        /// <summary>
+        ///                      
+        /// </summary>
+        public string USERPASS { get; set; }
     }
 
-    public interface IUserService : IScopeDependcy
-    {
-        void CreateUserInfo(UserInfo info);
-    }
-    public class UserService : IUserService
-    {
-        private IRepository<UserInfo> _userReposiroty;
-        public UserService(IRepository<UserInfo> repository)
-        {
-            _userReposiroty = repository;
-        }
-        public void CreateUserInfo(UserInfo info)
-        {
-            var abc = _userReposiroty.AddEntity(info);
-        }
-
-    }
 }
-

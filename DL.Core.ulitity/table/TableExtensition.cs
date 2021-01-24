@@ -1,6 +1,8 @@
-﻿using System;
+﻿using DL.Core.ulitity.tools;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Reflection;
 using System.Text;
 
 namespace DL.Core.ulitity.table
@@ -103,7 +105,18 @@ namespace DL.Core.ulitity.table
                         {
                             if (pro.CanWrite && pro.CanRead)
                             {
-                                pro.SetValue(model, row[pro.Name], null);
+                                var value = row[pro.Name];
+                                var type = pro.PropertyType;
+                                var valueType = value.GetType();
+                                if (type == valueType)
+                                {
+                                    pro.SetValue(model, value, null);
+                                }
+                                else
+                                {
+                                    var obj = value.CastTo(type);
+                                    pro.SetValue(model, obj, null);
+                                }                           
                             }
                         }
                     }
@@ -138,13 +151,16 @@ namespace DL.Core.ulitity.table
                         {
                             //取出值
                             var value = row[item.Name];
-                            if (value != DBNull.Value)
+                            var type = item.PropertyType;
+                            var valueType = value.GetType();
+                            if (type == valueType)
                             {
-                                if(item.CanRead && item.CanWrite)
-                                {
-                                    //赋值
-                                    item.SetValue(model, value, null);
-                                }
+                                item.SetValue(model, value, null);
+                            }
+                            else
+                            {
+                                var obj = value.CastTo(type);
+                                item.SetValue(model, obj, null);
                             }
                         }
                     }
@@ -156,5 +172,6 @@ namespace DL.Core.ulitity.table
                 return model;
             }
         }
-    }
+
+     }
 }

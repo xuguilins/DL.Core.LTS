@@ -4,70 +4,30 @@
         <name>ConsoleApp2</name>
     </assembly>
     <members>
-        <member name="T:ConsoleApp2.TaskBuilder.ITimebuilder">
+        <member name="P:ConsoleApp2.UserInfo.CREATETIME">
             <summary>
-            定时任务接口
+                                 
             </summary>
         </member>
-        <member name="M:ConsoleApp2.TaskBuilder.ITimebuilder.DateTimeOfEverDay``1">
+        <member name="P:ConsoleApp2.UserInfo.ID">
             <summary>
-            每天执行任务，默认晚上12点
+                                 
             </summary>
-            <typeparam name="TJob"></typeparam>
         </member>
-        <member name="M:ConsoleApp2.TaskBuilder.ITimebuilder.DateTimeOfEverDay``1(System.DateTime)">
+        <member name="P:ConsoleApp2.UserInfo.USERAGE">
             <summary>
-            每天指定时间执行任务
-            一但指定，即每天这个时候都会执行
+                                 
             </summary>
-            <typeparam name="TJob"></typeparam>
-            <param name="time">指定时间/每天执行</param>
         </member>
-        <member name="M:ConsoleApp2.TaskBuilder.ITimebuilder.DateTimeOfEverDay``1(System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="P:ConsoleApp2.UserInfo.USERNAME">
             <summary>
-            每天执行任务，默认晚上12点
+                                 
             </summary>
-            <typeparam name="TJob"></typeparam>
-            <param name="dic">参数</param>
         </member>
-        <member name="M:ConsoleApp2.TaskBuilder.ITimebuilder.DateTimeOfEverDay``1(System.DateTime,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="P:ConsoleApp2.UserInfo.USERPASS">
             <summary>
-            每天指定时间执行任务
-            一但指定，即每天这个时候都会执行
+                                 
             </summary>
-            <typeparam name="TJob"></typeparam>
-            <param name="time">指定时间/每天执行</param>
-            <param name="dic">参数</param>
-        </member>
-        <member name="M:ConsoleApp2.TaskBuilder.ITimebuilder.DateTimeOfAftearDay``1(System.Int32)">
-            <summary>
-            延迟执行,指定当前时间的后几天执行
-            </summary>
-            <typeparam name="TJob"></typeparam>
-            <param name="day">天数</param>
-        </member>
-        <member name="M:ConsoleApp2.TaskBuilder.ITimebuilder.DateTimeOfAftearDay``1(System.Int32,System.Collections.Generic.Dictionary{System.String,System.Object})">
-            <summary>
-            延迟执行,指定当前时间的后几天执行
-            </summary>
-            <typeparam name="TJob"></typeparam>
-            <param name="day">天数</param>
-            <param name="dic">参数</param>
-        </member>
-        <member name="M:ConsoleApp2.TaskBuilder.ITimebuilder.ExecuteTask``1(System.String)">
-            <summary>
-            指定CORN表达式执行
-            </summary>
-            <typeparam name="TJob"></typeparam>
-            <param name="cornExpress">表达式</param>
-        </member>
-        <member name="M:ConsoleApp2.TaskBuilder.ITimebuilder.ExecuteTask``1(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
-            <summary>
-            指定CORN表达式执行
-            </summary>
-            <typeparam name="TJob"></typeparam>
-            <param name="cornExpress">表达式</param>
-            <param name="dic">参数</param>
         </member>
     </members>
 </doc>
