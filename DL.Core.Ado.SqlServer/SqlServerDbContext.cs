@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using DL.Core.Ado;
 using DL.Core.Ado.SqlServer;
@@ -124,8 +126,6 @@ namespace DL.Core.Ado.SqlServer
                 using (SqlCommand com = new SqlCommand(sql, _sqlConnection))
                 {
                     com.CommandText = sql;
-                    if (parameter.Length > 0)
-                        com.Parameters.AddRange(parameter);
                     if (parameter.Length > 0)
                         com.Parameters.AddRange(parameter);
                     if (BeginTransaction)
@@ -247,22 +247,27 @@ namespace DL.Core.Ado.SqlServer
             {
                 var type = entity.GetType();         
                 var props = type.GetProperties();
-                var itemCodes = string.Join(",", props.Select(x => x.Name));
-                var tableName = GetTableName(type);// string.Empty;
+                var tableName = GetTableName(type);
                 StringBuilder sb = new StringBuilder();
-                sb.Append($"INSERT INTO  {tableName}({itemCodes})VALUES(");
                 string strValues = string.Empty;
+                string itemCodes = string.Empty;
+                string paramesCodes = string.Empty;
+                Hashtable hs = new Hashtable();
                 foreach (var item in props)
                 {
-
-                    var value = item.GetValue(entity, null);
-                    if (value == null || value == DBNull.Value)
-                        value = "";
-                    strValues += $"'{value}',";
+                    var isIgnore = GetColumeIgnore(item);
+                    if (!isIgnore)
+                    {
+                        itemCodes += item.Name + ",";
+                        paramesCodes += "@"+item.Name + ",";
+                        var value = item.GetValue(entity, null);
+                        hs.Add(item.Name, value);
+                    }
                 }
-                sb.Append(strValues.Substring(0, strValues.Length - 1) + ")");
-                var executeSql = sb.ToString();
-                return ExecuteNonQuery(executeSql, CommandType.Text);
+                itemCodes = itemCodes.ExpenSubstr();
+                paramesCodes = paramesCodes.ExpenSubstr();
+                var sql = $"INSERT INTO {tableName} ({itemCodes})VALUES({paramesCodes})";
+                return ExecuteNonQuery(sql, CommandType.Text,hs);
             }
             catch (SqlServerException ex)
             {
@@ -419,6 +424,19 @@ namespace DL.Core.Ado.SqlServer
 
 
         }
+        private bool GetColumeIgnore(PropertyInfo type)
+        {
+            var attbuite = type.GetCustomAttributes(false);
+            if (attbuite != null && attbuite.Length > 0)
+            {
+                var tableAttbuite = attbuite[0] as IgnoerColume;
+                return tableAttbuite.Ignore;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public override DataTable GetPageDataTable(string tableName, int pageIndex, int pageSize, string orderByFiled, out int totalCount, string filterSql = null)
         {
@@ -483,6 +501,33 @@ namespace DL.Core.Ado.SqlServer
                 var sql = $"SELECT * FROM (select  ROW_NUMBER() OVER(ORDER BY {orderByFiled}) AS num ,   * FROM {tableName} where 1=1   ) AS T WHERE T.num>={start} and T.num<={end}";
                 return GetDataSet(sql, CommandType.Text);
             }
+        }
+
+        public override int ExecuteNonQuery(string sql, CommandType type, Hashtable hashtable)
+        {
+          
+            List<SqlParameter> list = new List<SqlParameter>();
+            foreach (var item in hashtable.Keys)
+            {
+                var parmars = item.ToString();
+                var itemValue = hashtable[item];
+                list.Add(new SqlParameter(parmars, itemValue));
+            }
+            var arrys = list.ToArray();
+            return ExecuteNonQuery(sql, type, arrys);
+        }
+
+        public override int ExecuteNonQuery(string sql, CommandType type, Dictionary<string, string> pairs)
+        {
+            List<SqlParameter> list = new List<SqlParameter>();
+            foreach (var item in pairs.Keys)
+            {
+                var parmars = item.ToString();
+                var itemValue = pairs[item];
+                list.Add(new SqlParameter(parmars, itemValue));
+            }
+            var arrys = list.ToArray();
+            return ExecuteNonQuery(sql, type, arrys);
         }
     }
 }

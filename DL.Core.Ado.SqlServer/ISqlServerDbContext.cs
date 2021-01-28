@@ -46,11 +46,12 @@ namespace DL.Core.Ado.SqlServer
         /// <returns></returns>
         int Insert<TEntity>(TEntity entity) where TEntity : class;
         /// <summary>
-        /// 批量写入实体数据
+        /// 批量写入实体数据[弃用]
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entities"></param>
         /// <returns></returns>
+        [Obsolete("不建议使用")]
         int InsertItems<TEntity>(List<TEntity> entities) where TEntity : class;
         /// <summary>
         /// 查询单个实体

@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using DL.Core.ulitity;
 using System.Collections.Concurrent;
 using DL.Core.ulitity.tools;
+using System.Collections;
 
 namespace DL.Core.Ado.Oracle
 {
@@ -241,6 +242,33 @@ namespace DL.Core.Ado.Oracle
                 }    
             }
             return result;
+        }
+
+        public override int ExecuteNonQuery(string sql, CommandType type, Hashtable hashtable)
+        {
+
+            List<OracleParameter> list = new List<OracleParameter>();
+            foreach (var item in hashtable.Keys)
+            {
+                var parmars = item.ToString();
+                var itemValue = hashtable[item];
+                list.Add(new OracleParameter(parmars, itemValue));
+            }
+            var arrys = list.ToArray();
+            return ExecuteNonQuery(sql, type, arrys);
+        }
+
+        public override int ExecuteNonQuery(string sql, CommandType type, Dictionary<string, string> pairs)
+        {
+            List<OracleParameter> list = new List<OracleParameter>();
+            foreach (var item in pairs.Keys)
+            {
+                var parmars = item.ToString();
+                var itemValue = pairs[item];
+                list.Add(new OracleParameter(parmars, itemValue));
+            }
+            var arrys = list.ToArray();
+            return ExecuteNonQuery(sql, type, arrys);
         }
     }
 }

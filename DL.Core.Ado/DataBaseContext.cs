@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -21,6 +22,26 @@ namespace DL.Core.Ado
         /// <param name="parameter">执行参数</param>
         /// <returns>返回受影响的行数</returns>
         public abstract int ExecuteNonQuery(string sql, CommandType type, params DbParameter[] parameter);
+
+        /// <summary>
+        /// 返回受影响的行数
+        /// 用于增删改操作
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="type">执行类型</param>
+        /// <param name="hashtable">键值对table</param>
+        /// <returns>返回受影响的行数</returns>
+        public abstract int ExecuteNonQuery(string sql, CommandType type, Hashtable hashtable);
+
+        /// <summary>
+        /// 返回受影响的行数
+        /// 用于增删改操作
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="type">执行类型</param>
+        /// <param name="pairs">键值对字典</param>
+        /// <returns>返回受影响的行数</returns>
+        public abstract int ExecuteNonQuery(string sql, CommandType type, Dictionary<string, string> pairs);
 
         /// <summary>
         /// 获取数据表格

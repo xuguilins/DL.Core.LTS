@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using System.Linq;
 using DL.Core.ulitity.table;
 using DL.Core.ulitity.attubites;
+using System.Collections;
 
 namespace DL.Core.Ado.MySql
 {
@@ -410,6 +411,32 @@ namespace DL.Core.Ado.MySql
                 var sql = string.Format("SELECT  * from {3} WHERE 1 = 1 {4} order by {0}  DESC  LIMIT {1},{2}", orderByFiled, start, pageSize, tableName, filterSql);
                 return GetDataSet(sql, CommandType.Text);
             }
+        }
+        public override int ExecuteNonQuery(string sql, CommandType type, Hashtable hashtable)
+        {
+
+            List<MySqlParameter> list = new List<MySqlParameter>();
+            foreach (var item in hashtable.Keys)
+            {
+                var parmars = item.ToString();
+                var itemValue = hashtable[item];
+                list.Add(new MySqlParameter(parmars, itemValue));
+            }
+            var arrys = list.ToArray();
+            return ExecuteNonQuery(sql, type, arrys);
+        }
+
+        public override int ExecuteNonQuery(string sql, CommandType type, Dictionary<string, string> pairs)
+        {
+            List<MySqlParameter> list = new List<MySqlParameter>();
+            foreach (var item in pairs.Keys)
+            {
+                var parmars = item.ToString();
+                var itemValue = pairs[item];
+                list.Add(new MySqlParameter(parmars, itemValue));
+            }
+            var arrys = list.ToArray();
+            return ExecuteNonQuery(sql, type, arrys);
         }
     }
 }

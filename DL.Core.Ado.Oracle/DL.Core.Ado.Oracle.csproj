@@ -10,9 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DL.Core.Ado" Version="3.1.0" />
     <PackageReference Include="DL.Core.ulitity" Version="3.1.2" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.100" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DL.Core.Ado\DL.Core.Ado.csproj" />
   </ItemGroup>
 
 </Project>
