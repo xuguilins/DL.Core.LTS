@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Text.RegularExpressions;
 using DL.Core.Ado;
 using DL.Core.Ado.SqlServer;
 using DL.Core.ulitity;
@@ -11,16 +13,26 @@ namespace ConsoleApp4
         static void Main(string[] args)
         {
 
-            UserInfo info = new UserInfo
+            //手机号脱敏
+            string number = "18720294546";
+            var express = @"^[0-9]*$";
+            var flag = Regex.IsMatch(number, express);
+            int length = number.Length;
+            if (flag && length==11)
             {
-               USERAGE = 12,
-               USERNAME = "abc",
-               USERPASS = "222",
-               CREATETIME =DateTime.Now
-            };
-            ISqlServerDbContext context = new SqlServerDbContext();
-            context.CreateDbConnection("Data Source=.;Initial Catalog=CodeFormDB;Persist Security Info=True;User ID=sa;Password=0103");
-            context.Insert(info);
+                var start = number.Substring(0, 3);
+                var middler = "****";
+                var end = number.Substring(7, 4);
+                var res = $"{start}{middler}{end}";
+                Console.WriteLine(res);
+
+
+
+            }
+
+
+
+
             Console.ReadKey();
         }
     }
@@ -28,6 +40,7 @@ namespace ConsoleApp4
     {
         [IgnoerColume(true)]
         public int ID { get; set; }
+        [Description("用户名")]
         public string USERNAME { get; set; }
         public int USERAGE { get; set; }
         public DateTime CREATETIME { get; set; }

@@ -243,6 +243,28 @@ namespace DL.Core.ulitity.tools
             MemoryStream ms = new MemoryStream(bytes);
             return ms;
         }
+        /// <summary>
+        /// 手机号脱敏处理
+        /// 如：183****3333
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        public static string HiddenNumber(this string number)
+        {
+            var express = @"^[0-9]*$";
+            var flag = Regex.IsMatch(number, express);
+            int length = number.Length;
+            string result = string.Empty;
+            if (flag && length == 11)
+            {
+                var start = number.Substring(0, 3);
+                var middler = "****";
+                var end = number.Substring(7, 4);
+                result = $"{start}{middler}{end}";
+           
+            }
+            return result;
+        }
 
         /// <summary>
         /// 将流转换为内存流
