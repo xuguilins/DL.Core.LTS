@@ -5,12 +5,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using DL.Core.ns.EFCore;
 using Microsoft.Extensions.DependencyInjection;
 using DL.Core.EfCore;
 using DL.Core.ulitity.ui;
 
-namespace DL.Core.ns.EFCore
+namespace DL.Core.EFCore
 {
     /// <summary>
     /// 仓储实现
