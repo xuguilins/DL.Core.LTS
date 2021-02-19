@@ -14,7 +14,9 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             IServiceCollection services = new ServiceCollection();
+            services.EnableAutoMigration(false);
             services.AddEnginePack<MyContext>();
+             
             var service = ServiceLocator.Instace.GetService<IUserService>();
             service.AddUser();
             Console.ReadKey();

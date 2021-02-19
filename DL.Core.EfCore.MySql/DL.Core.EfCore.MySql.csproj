@@ -6,7 +6,7 @@
     <Authors>余温</Authors>
     <Description>个人类库
 使用EFCore封装对MySql操作</Description>
-    <Version>3.1.0</Version>
+    <Version>3.1.5</Version>
   </PropertyGroup>
 
   <ItemGroup>

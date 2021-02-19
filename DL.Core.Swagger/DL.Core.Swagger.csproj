@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>个人类库
 修复生成token的问题</Description>
-    <Version>3.1.1</Version>
+    <Version>3.1.5</Version>
     <Authors>余温</Authors>
   </PropertyGroup>
 

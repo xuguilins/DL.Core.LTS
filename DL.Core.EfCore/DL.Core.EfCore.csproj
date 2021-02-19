@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>个人类库
 封装使用EFCore操作数据库的基类</Description>
-    <Version>3.1.0</Version>
+    <Version>3.1.5</Version>
     <Authors>余温</Authors>
   </PropertyGroup>
 
