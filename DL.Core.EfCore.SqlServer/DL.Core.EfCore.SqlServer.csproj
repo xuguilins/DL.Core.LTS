@@ -6,12 +6,15 @@
     <Authors>余温</Authors>
     <Description>个人类库
 使用EfCore操作SqlServer数据库</Description>
-    <Version>3.1.0</Version>
+    <Version>3.1.5</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DL.Core.EfCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DL.Core.EfCore\DL.Core.EfCore.csproj" />
   </ItemGroup>
 
 </Project>

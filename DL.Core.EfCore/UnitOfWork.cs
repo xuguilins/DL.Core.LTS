@@ -57,10 +57,6 @@ namespace DL.Core.EfCore
             var scopeDictory = provider.GetService<ScopedDictory>();
             scopeDictory.TryAdd($"dbcontext-{context.ConnectionString}", context);
             scopeDictory.TryAdd($"dbentity-{type.Name}", context);
-            scopeDictory.TryAdd($"dbconstr-{context.ConnectionString}", CurrentDbContext);
-            scopeDictory.TryAdd($"dbunit-{context.ConnectionString}", CurrentUnitOfWork);
-            scopeDictory.TryAdd($"dbentityunit-{type.Name}", CurrentUnitOfWork);
-            scopeDictory.TryAdd($"dbcontextName-{dbType.Name}", CurrentUnitOfWork);
             return context;
         }
 

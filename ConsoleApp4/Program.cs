@@ -1,8 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Text.RegularExpressions;
 using DL.Core.Ado;
 using DL.Core.Ado.SqlServer;
 using DL.Core.ulitity;
 using DL.Core.ulitity.attubites;
+using DL.Core.ulitity.ui;
 
 namespace ConsoleApp4
 {
@@ -11,26 +14,13 @@ namespace ConsoleApp4
         static void Main(string[] args)
         {
 
-            UserInfo info = new UserInfo
-            {
-               USERAGE = 12,
-               USERNAME = "abc",
-               USERPASS = "222",
-               CREATETIME =DateTime.Now
-            };
-            ISqlServerDbContext context = new SqlServerDbContext();
-            context.CreateDbConnection("Data Source=.;Initial Catalog=CodeFormDB;Persist Security Info=True;User ID=sa;Password=0103");
-            context.Insert(info);
+            
+
             Console.ReadKey();
         }
     }
-    public class UserInfo
+    public class UserInfo:EntityBase
     {
-        [IgnoerColume(true)]
-        public int ID { get; set; }
-        public string USERNAME { get; set; }
-        public int USERAGE { get; set; }
-        public DateTime CREATETIME { get; set; }
-        public string USERPASS { get; set; }
+        public string UserName { get; set; }   
     }
 }

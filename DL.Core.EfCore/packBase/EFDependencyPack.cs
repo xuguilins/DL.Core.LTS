@@ -1,4 +1,5 @@
-﻿using DL.Core.ns.EFCore;
+﻿
+using DL.Core.EFCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

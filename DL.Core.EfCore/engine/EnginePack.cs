@@ -17,6 +17,7 @@ namespace DL.Core.EfCore.engine
     {
         private static IServiceProvider ServiceProvider;
         private static ILogger logger = LogManager.GetLogger();
+        private static  bool AutoMigrationEable { get; set; }
         public static IServiceCollection  AddEnginePack<TDContext>(this IServiceCollection  services) where TDContext:DbContext
         {
             StringBuilder sb = new StringBuilder();
@@ -46,10 +47,18 @@ namespace DL.Core.EfCore.engine
             logger.Info(sb.ToString());
             return services;
         } 
+        /// <summary>
+        ///  是否启用自动迁移
+        /// </summary>
+        /// <param name="enable">默认启用：true</param>
+        public static void EnableAutoMigration(this IServiceCollection services, bool enable= true)
+        {
+            AutoMigrationEable = enable;
+        }
         private static void AutoMigration(Type dbContext)
         {
             var config = ConfigManager.Build.DbConfig;
-            if (config.AutoEFMigrationEnable)
+            if (config.AutoEFMigrationEnable || AutoMigrationEable)
             {
                 var contexts = ServiceProvider.GetServices(dbContext).ToList(); 
                 foreach (var item in contexts)
