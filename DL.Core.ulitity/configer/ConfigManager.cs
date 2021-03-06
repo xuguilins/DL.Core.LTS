@@ -95,10 +95,10 @@ namespace DL.Core.ulitity.configer
         private  ConnectionString GetConStrSetting()
         {
             var con = new ConnectionString();
-            con.Default = Configuration["ConnectionString:default"];
-            con.SqlDefault = Configuration["ConnectionString:SqlDefault"];
-            con.MySqlDefault = Configuration["ConnectionString:MySqlDefault"];
-            con.OracleDefault = Configuration["ConnectionString:OracleDefault"];
+            con.Default = Configuration["ConnectionStrings:default"];
+            con.SqlDefault = Configuration["ConnectionStrings:SqlDefault"];
+            con.MySqlDefault = Configuration["ConnectionStrings:MySqlDefault"];
+            con.OracleDefault = Configuration["ConnectionStrings:OracleDefault"];
             return con;
         }
     }
